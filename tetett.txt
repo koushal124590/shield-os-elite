@@ -1,0 +1,12 @@
+🏙️ Online (Production)
+The "Web App" and "INITIATE SESSION" buttons on https://shield-os-31c0a.web.app now correctly bridge to your high-fidelity messenger at https://noor-cf2f7.web.app.
+
+🏠 Local (Development)
+The links on http://localhost:8080 now automatically redirect to your local messenger node at http://localhost:5000.
+
+✅ Fixed Components:
+Top Navigation: "Web App" link fixed.
+Hero Section: "INITIATE SESSION" button fixed.
+Environment Sync: Added a bridge script that detects if you are on localhost or the web, ensuring the links never break.
+The Branding Site and Messenger App are now perfectly cross-linked. You can test them both locally and online! 🛡️✨
+

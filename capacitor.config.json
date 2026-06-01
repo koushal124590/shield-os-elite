@@ -1,0 +1,25 @@
+{
+  "appId": "com.shield.app",
+  "appName": "SHIELD OS",
+  "webDir": "www",
+  "android": {
+    "allowMixedContent": true,
+    "overScrollMode": "never",
+    "zoomEnabled": false
+  },
+  "server": {
+    "androidScheme": "https"
+  },
+  "plugins": {
+    "PushNotifications": {
+      "presentationOptions": [
+        "badge",
+        "sound",
+        "alert"
+      ]
+    },
+    "LocalNotifications": {
+      "iconColor": "#D4AF37"
+    }
+  }
+}

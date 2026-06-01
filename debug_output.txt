@@ -1,0 +1,25 @@
+﻿--- STARTING REMOTE DEBUG SESSION ---
+Navigating to http://localhost:8080...
+[BROWSER ERROR] Failed to load resource: the server responded with a status of 404 (Not Found)
+[BROWSER LOG] DOM Loaded: System Boot Sequence Started
+[BROWSER LOG] SHIELD OS BOOT: System Ready
+[BROWSER LOG] Buttons found: [object Object]
+[BROWSER VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o
+[BROWSER LOG] Values: User signed out
+[BROWSER ERROR] Failed to load resource: the server responded with a status of 404 (Not Found)
+Page loaded successfully.
+[INITIAL HEALTH] {
+  "title": "SHIELD - SECURE MESSENGER",
+  "activePage": "welcome-page",
+  "getStartedExists": true,
+  "getStartedOpacity": "1",
+  "isSplashRemoved": true
+}
+Attempting to click 'Get Started'...
+[BROWSER LOG] Initiate Session Clicked
+[STATE AFTER CLICK] {
+  "activePage": "login-page",
+  "loginActive": true
+}
+Final debug snapshot saved.
+--- DEBUG SESSION COMPLETE ---

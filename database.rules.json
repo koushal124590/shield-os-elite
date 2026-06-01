@@ -1,0 +1,161 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+
+    "users": {
+      ".read": "auth != null",
+      "$uid": {
+        ".read": "auth != null",
+        ".write": "auth != null && (auth.uid === $uid || auth.token.email === 'koushalcharan22@gmail.com')",
+
+        "profile": {
+          ".read": "auth != null"
+        },
+        "username": {
+          ".read": "auth != null"
+        },
+        "status": {
+          ".read": "auth != null"
+        },
+        "lastSeen": {
+          ".read": "auth != null"
+        },
+        "friends": {
+          "$friendId": {
+            ".write": "auth != null && (auth.uid === $uid || auth.uid === $friendId || auth.token.email === 'koushalcharan22@gmail.com')"
+          }
+        },
+        "groups": {
+          "$groupId": {
+            ".write": "auth != null && (auth.uid === $uid || root.child('groups/' + $groupId + '/admins/' + auth.uid).exists() || auth.token.email === 'koushalcharan22@gmail.com')"
+          }
+        },
+        "handshakeRequests": {
+          "$fromUid": {
+            ".write": "auth != null && (auth.uid === $uid || auth.uid === $fromUid || auth.token.email === 'koushalcharan22@gmail.com')"
+          },
+          ".write": "auth != null"
+        },
+        "wallet": {
+          "balance": {
+            ".read": "auth != null && (auth.uid === $uid || auth.token.email === 'koushalcharan22@gmail.com')",
+            ".write": "auth != null"
+          }
+        },
+        "transactions": {
+          ".read": "auth != null && (auth.uid === $uid || auth.token.email === 'koushalcharan22@gmail.com')",
+          ".write": "auth != null && (auth.uid === $uid || auth.token.email === 'koushalcharan22@gmail.com')"
+        },
+        "chatSettings": {
+          ".read": "auth != null && (auth.uid === $uid || auth.token.email === 'koushalcharan22@gmail.com')",
+          ".write": "auth != null && (auth.uid === $uid || auth.token.email === 'koushalcharan22@gmail.com')"
+        },
+        "starred": {
+          ".read": "auth != null && (auth.uid === $uid || auth.token.email === 'koushalcharan22@gmail.com')",
+          ".write": "auth != null && (auth.uid === $uid || auth.token.email === 'koushalcharan22@gmail.com')"
+        }
+      }
+    },
+
+    "messages": {
+      ".read": "auth != null",
+      "$chatKey": {
+        ".read": "auth != null",
+        ".write": "auth != null"
+      }
+    },
+
+    "groups": {
+      "$groupId": {
+        ".read": "auth != null",
+        "name": {
+          ".write": "auth != null && (root.child('groups/' + $groupId + '/admins/' + auth.uid).exists() || auth.token.email === 'koushalcharan22@gmail.com')"
+        },
+        "members": {
+          "$memberId": {
+            ".write": "auth != null && (root.child('groups/' + $groupId + '/admins/' + auth.uid).exists() || auth.uid === $memberId || auth.token.email === 'koushalcharan22@gmail.com')"
+          }
+        },
+        "admins": {
+          "$adminId": {
+            ".write": "auth != null && (root.child('groups/' + $groupId + '/admins/' + auth.uid).exists() || auth.token.email === 'koushalcharan22@gmail.com')"
+          }
+        },
+        ".write": "auth != null"
+      }
+    },
+
+    "calls": {
+      "$uid": {
+        ".read": "auth != null",
+        ".write": "auth != null"
+      }
+    },
+
+    "status": {
+      ".read": "auth != null",
+      "$uid": {
+        ".read": "auth != null",
+        ".write": "auth != null && (auth.uid === $uid || auth.token.email === 'koushalcharan22@gmail.com')"
+      }
+    },
+
+    "statuses": {
+      ".read": "auth != null",
+      "$uid": {
+        ".read": "auth != null",
+        ".write": "auth != null && (auth.uid === $uid || auth.token.email === 'koushalcharan22@gmail.com')",
+        "$statusKey": {
+          "views": {
+            "$viewerUid": {
+              ".write": "auth != null && (auth.uid === $viewerUid || auth.token.email === 'koushalcharan22@gmail.com')"
+            }
+          }
+        }
+      }
+    },
+
+    "typing": {
+      ".read": "auth != null",
+      "$uid": {
+        ".read": "auth != null",
+        ".write": "auth != null && (auth.uid === $uid || auth.token.email === 'koushalcharan22@gmail.com')"
+      }
+    },
+
+    "shared_docs": {
+      "$docId": {
+        ".read": true,
+        ".write": "auth != null"
+      }
+    },
+
+    "cloud_fragments": {
+      "$signalId": {
+        ".read": "auth != null",
+        ".write": "auth != null"
+      }
+    },
+
+    "OS_SYSTEM_ROOT": {
+      ".read": "auth != null",
+      ".write": "auth != null"
+    },
+
+    "broadcasts": {
+      ".read": "auth != null",
+      ".write": "auth != null && auth.token.email === 'koushalcharan22@gmail.com'"
+    },
+
+    "admin_audits": {
+      ".read": "auth != null && auth.token.email === 'koushalcharan22@gmail.com'",
+      ".write": "auth != null && auth.token.email === 'koushalcharan22@gmail.com'"
+    },
+
+    "admin_settings": {
+      ".read": "auth != null && auth.token.email === 'koushalcharan22@gmail.com'",
+      ".write": "auth != null && auth.token.email === 'koushalcharan22@gmail.com'"
+    }
+  }
+}

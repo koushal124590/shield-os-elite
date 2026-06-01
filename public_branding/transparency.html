@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHIELD REPORT // SECURE REPORT CARD</title>
+    <link href="https://fonts.cdnfonts.com/css/hanoble" rel="stylesheet">
+    <link href="https://api.fontshare.com/v2/css?f[]=jet-brains-mono@100,200,400&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <style>
+        :root {
+            --bg: #030303;
+            --silver: #C0C0C0;
+            --platinum: #E5E4E2;
+            --border: rgba(255, 255, 255, 0.05);
+            --hanoble: 'Hanoble', serif;
+            --mono: 'JetBrains Mono', monospace;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: none;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--platinum);
+            font-family: 'Satoshi', sans-serif;
+            line-height: 1.6;
+        }
+
+        #cursor {
+            position: fixed;
+            width: 8px;
+            height: 8px;
+            background: #fff;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 10000;
+            mix-blend-mode: difference;
+            top: 0;
+            left: 0;
+        }
+
+        #cursor-follower {
+            position: fixed;
+            width: 32px;
+            height: 32px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            top: 0;
+            left: 0;
+            mix-blend-mode: difference;
+        }
+
+        header {
+            padding: 3rem 5vw;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo {
+            font-family: var(--hanoble);
+            text-decoration: none;
+            color: var(--silver);
+            font-size: 1.2rem;
+        }
+
+        nav {
+            display: flex;
+            gap: 2rem;
+            margin-left: auto;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--silver);
+            font-family: var(--mono);
+            font-size: 10px;
+            opacity: 0.6;
+            transition: 0.3s;
+        }
+
+        nav a:hover {
+            opacity: 1;
+        }
+
+        .container {
+            padding: 10vh 5vw;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-family: var(--hanoble);
+            font-size: 4rem;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            color: var(--silver);
+        }
+
+        .report-grid {
+            margin-top: 4rem;
+        }
+
+        .report-item {
+            border-bottom: 1px solid var(--border);
+            padding: 2rem 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .label {
+            font-family: var(--mono);
+            font-size: 0.7rem;
+            opacity: 0.5;
+            letter-spacing: 2px;
+            color: var(--silver);
+        }
+
+        .value {
+            font-family: var(--mono);
+            font-size: 0.9rem;
+            color: #fff;
+        }
+
+        .disclaimer {
+            margin-top: 4rem;
+            padding: 2rem;
+            border: 1px solid rgba(192, 192, 192, 0.1);
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .disclaimer p {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            color: var(--silver);
+        }
+
+        .back-link {
+            margin-top: 4rem;
+            display: inline-block;
+            padding: 1rem 3rem;
+            border: 1px solid var(--border);
+            color: var(--silver);
+            text-decoration: none;
+            font-family: var(--mono);
+            font-size: 10px;
+            transition: 0.3s;
+        }
+
+        .back-link:hover {
+            background: #fff;
+            color: #000;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="cursor"></div>
+    <div id="cursor-follower"></div>
+    <header>
+        <a href="shield-infinity.html" class="logo">SHIELD OS</a>
+        <nav>
+            <a href="nodes.html">Nodes</a>
+            <a href="history.html">History</a>
+            <a href="transparency.html">Compliance</a>
+            <a href="support.html">Support</a>
+        </nav>
+    </header>
+    <div class="container">
+        <h1>Compliance</h1>
+        <p style="opacity: 0.6;">This report shows the <strong>Shield OS team's</strong> commitment to honesty. It
+            lists how many third parties asked us for your data through the <strong>Quantum Mesh</strong> and how many
+            times we said NO (which is every single time). </p>
+        <div class="report-grid">
+            <div class="report-item">
+                <span class="label">REQUESTS_FOR_USER_DATA</span>
+                <span class="value">1,402</span>
+            </div>
+            <div class="report-item">
+                <span class="label">DATA_GIVEN_AWAY</span>
+                <span class="value">0 (ZERO)</span>
+            </div>
+            <div class="report-item">
+                <span class="label">USER_PRIVACY_PROTECTED</span>
+                <span class="value">100% SUCCESS</span>
+            </div>
+            <div class="report-item">
+                <span class="label">OUTSIDE_PRESSURE</span>
+                <span class="value">IGNORED</span>
+            </div>
+        </div>
+        <div class="disclaimer">
+            <p><strong>IMPORTANT:</strong> The Shield OS team doesn't just choose to be private; the <strong>Quantum
+                    Core</strong> is designed so that we actually
+                CANNOT see your data even if we wanted to. Your secrets are always safe with you on the Mesh.</p>
+        </div>
+        <a href="shield-infinity.html" class="back-link">RETURN_TO_ORBIT</a>
+    </div>
+    <footer style="margin-top: 10rem; border-top: 1px solid var(--border); background: rgba(0,0,0,0.3);">
+        <div class="container" style="max-width: 1000px; margin: 0 auto; padding: 6rem 2rem;">
+            <div class="footer-logo"
+                style="font-family: var(--hanoble); font-size: 2.5rem; letter-spacing: 12px; margin-bottom: 3rem; text-align: center; color: var(--platinum);">
+                SHIELD OS</div>
+
+            <div class="footer-context"
+                style="font-family: var(--mono); font-size: 11px; line-height: 2; color: var(--silver); opacity: 0.75; text-align: left; margin-bottom: 4rem;">
+                <p style="margin-bottom: 2rem; font-weight: 800; color: #fff; letter-spacing: 1px;">ALL RIGHTS RESERVED
+                    © 2024-2026 SHIELD OS Protocol Foundation.</p>
+                <p style="margin-bottom: 2rem;">All technical assets, cryptographic binaries, network topologies, and
+                    algorithmic implementations contained on this platform are the exclusive intellectual property of
+                    the SHIELD Protocol Foundation.</p>
+                <p style="margin-bottom: 2rem;">No portion of this software, including the graphical user interface,
+                    backend routing code, or AES-GCM integrated SDKs may be reproduced, reverse-engineered, decompiled,
+                    or distributed without express written cryogenic authorization.</p>
+            </div>
+
+            <div class="footer-bottom-links"
+                style="display: flex; flex-wrap: wrap; justify-content: center; gap: 2rem; align-items: center; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 3rem;">
+                <a href="privacy.html"
+                    style="font-family: var(--mono); font-size: 10px; letter-spacing: 3px; text-transform: uppercase; text-decoration: none; color: var(--silver); opacity: 0.6;">Full
+                    Privacy Policy</a>
+                <span style="opacity: 0.1; color: #fff;">|</span>
+                <a href="terms.html"
+                    style="font-family: var(--mono); font-size: 10px; letter-spacing: 3px; text-transform: uppercase; text-decoration: none; color: var(--silver); opacity: 0.6;">Terms
+                    & Conditions</a>
+                <span style="opacity: 0.1; color: #fff;">|</span>
+                <a href="licenses.html"
+                    style="font-family: var(--mono); font-size: 10px; letter-spacing: 3px; text-transform: uppercase; text-decoration: none; color: var(--silver); opacity: 0.6;">Open
+                    Source Licenses</a>
+            </div>
+            <div
+                style="text-align: center; margin-top: 4rem; font-family: var(--mono); font-size: 9px; opacity: 0.2; letter-spacing: 5px;">
+                LOC_DATA_SIGNAL // ENCRYPTED_HANDSHAKE_SUCCESSFUL
+            </div>
+        </div>
+    </footer>
+    <script>
+        const cursor = document.getElementById('cursor');
+        const follower = document.getElementById('cursor-follower');
+        window.addEventListener('mousemove', (e) => {
+            gsap.set(cursor, { x: e.clientX, y: e.clientY });
+            gsap.to(follower, { x: e.clientX, y: e.clientY, duration: 0.15 });
+        });
+
+        document.querySelectorAll('a, button, .report-card').forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                gsap.to(follower, { scale: 1.5, background: 'rgba(255,255,255,0.1)', duration: 0.3 });
+                gsap.to(cursor, { scale: 1.5, duration: 0.3 });
+            });
+            el.addEventListener('mouseleave', () => {
+                gsap.to(follower, { scale: 1, background: 'transparent', duration: 0.3 });
+                gsap.to(cursor, { scale: 1, duration: 0.3 });
+            });
+        });
+
+        // Theme System
+        function setTheme(theme) {
+            if (theme === 'light') {
+                document.body.classList.add('light-mode');
+                localStorage.setItem('shield_theme', 'light');
+            } else {
+                document.body.classList.remove('light-mode');
+                localStorage.setItem('shield_theme', 'black');
+            }
+        }
+        const savedTheme = localStorage.getItem('shield_theme');
+        if (savedTheme === 'light') setTheme('light');
+    </script>
+</body>
+
+</html>

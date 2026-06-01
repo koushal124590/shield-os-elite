@@ -1,0 +1,2115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHIELD OS // INFINITY PROTOCOL - Quantum Encrypted Ecosystem</title>
+    
+    <!-- SEO & Global Activation -->
+    <meta name="description" content="Experience the world's first Quantum Encrypted Signal. SHIELD OS offers absolute privacy, decentralized mesh networking, and zero-trace communication.">
+    <meta name="keywords" content="Shield OS, Quantum Encryption, Private Messenger, Secure OS, Decentralized Network, Mesh Protocol, Anonymous Chat">
+    <meta name="author" content="SHIELD Protocol Foundation">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://shield-protocol.com/">
+    <meta property="og:title" content="SHIELD OS // INFINITY PROTOCOL">
+    <meta property="og:description" content="Talk through the Mesh, stay invisible. The next evolution of human privacy is here.">
+    <meta property="og:image" content="https://shield-protocol.com/assets/og-shield.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://shield-protocol.com/">
+    <meta property="twitter:title" content="SHIELD OS // INFINITY PROTOCOL">
+    <meta property="twitter:description" content="Quantum Encrypted. Decentralized. Absolute Privacy.">
+    <meta property="twitter:image" content="https://shield-protocol.com/assets/og-shield.png">
+
+    <!-- Premium Typography -->
+    <link href="https://fonts.cdnfonts.com/css/hanoble" rel="stylesheet">
+    <link
+        href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700,900&f[]=jet-brains-mono@100,200,300,400,500,800&display=swap"
+        rel="stylesheet">
+
+    <!-- Engine Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.33/dist/lenis.min.js"></script>
+
+    <style>
+        :root {
+            --bg: #030303;
+            --silver: #C0C0C0;
+            --silver-glow: rgba(192, 192, 192, 0.4);
+            --platinum: #E5E4E2;
+            --border: rgba(255, 255, 255, 0.08);
+            --glass: rgba(15, 15, 15, 0.7);
+            --hanoble: 'Hanoble', serif;
+            --body: 'Satoshi', sans-serif;
+            --mono: 'JetBrains Mono', monospace;
+            --accent: #ffffff;
+            --card-bg: rgba(255, 255, 255, 0.01);
+        }
+
+        /* LIGHT MODE OVERRIDES */
+        body.light-mode {
+            --bg: #f5f5f7;
+            --platinum: #1a1a1a;
+            --silver: #333333;
+            --border: rgba(0, 0, 0, 0.1);
+            --glass: rgba(255, 255, 255, 0.8);
+            --accent: #000000;
+            --card-bg: rgba(0, 0, 0, 0.03);
+            --silver-glow: rgba(0, 0, 0, 0.1);
+        }
+
+        body.light-mode footer,
+        body.light-mode header.scrolled .header-main {
+            background: rgba(245, 245, 247, 0.8) !important;
+        }
+
+        body.light-mode .news-ticker-wrap {
+            background: #ffffff !important;
+            border-bottom: 2px solid #000;
+        }
+
+        body.light-mode .ticker-item {
+            color: #000 !important;
+        }
+
+        /* --- CORE RESET --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: none;
+        }
+
+        /* Allow default cursor on interactive elements if custom cursor fails */
+        input, textarea, button, a {
+            cursor: auto;
+        }
+
+        html.lenis {
+            height: auto;
+        }
+
+        .lenis.lenis-smooth {
+            scroll-behavior: auto !important;
+        }
+
+        .lenis.lenis-smooth [data-lenis-prevent] {
+            overscroll-behavior: contain;
+        }
+
+        .lenis.lenis-stopped {
+            overflow: hidden;
+        }
+
+        .lenis.lenis-scrolling iframe {
+            pointer-events: none;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--platinum);
+            font-family: var(--body);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* --- LIVE SILVER NEBULA (CANVAS) --- */
+        #nebula {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* --- SILVER GLOW SYSTEM --- */
+        .hanoble-glow {
+            font-family: var(--hanoble);
+            color: var(--platinum);
+            text-shadow: 0 0 25px var(--silver-glow), 0 0 50px rgba(192, 192, 192, 0.2);
+            letter-spacing: 0.02em;
+        }
+
+        /* --- CUSTOM CURSOR --- */
+        #cursor {
+            position: fixed;
+            width: 6px;
+            height: 6px;
+            background: var(--accent);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 10000;
+            transform: translate(-50%, -50%);
+            mix-blend-mode: difference;
+        }
+
+        #cursor-follower {
+            position: fixed;
+            width: 30px;
+            height: 30px;
+            border: 1px solid rgba(192, 192, 192, 0.5);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s, height 0.3s, border-radius 0.3s, background 0.3s;
+        }
+
+        /* --- NAVIGATION --- */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            border-bottom: 1px solid var(--border);
+            transition: 0.5s;
+        }
+
+        .header-main {
+            padding: 1.2rem 5vw;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(20px);
+            background: rgba(0, 0, 0, 0.5);
+            transition: 0.3s;
+            position: relative;
+            z-index: 10;
+            /* Ensure this is above the ticker */
+        }
+
+        header.scrolled .header-main {
+            padding: 0.8rem 5vw;
+            background: rgba(0, 0, 0, 0.9);
+        }
+
+        header.scrolled {
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo-group {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .logo-symbol {
+            width: 28px;
+            height: 28px;
+            border: 1.5px solid var(--silver);
+            transform: rotate(45deg);
+            box-shadow: 0 0 10px var(--silver-glow);
+        }
+
+        .logo-text {
+            font-family: var(--hanoble);
+            font-size: 1.5rem;
+            text-transform: uppercase;
+        }
+
+        nav {
+            display: flex;
+            gap: 1.8rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            font-family: var(--mono);
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-decoration: none;
+            color: var(--silver);
+            opacity: 0.5;
+            transition: opacity 0.3s, color 0.3s;
+            position: relative;
+        }
+
+        .nav-link:hover {
+            opacity: 1;
+            color: var(--platinum);
+        }
+
+        /* --- APPLE-STYLE PRELOADER --- */
+        #preloader {
+            position: fixed;
+            inset: 0;
+            background: #000;
+            z-index: 10000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .preloader-greeting-container {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            perspective: 2000px;
+            z-index: 10;
+        }
+
+        .preloader-greeting {
+            font-family: var(--hanoble);
+            font-size: clamp(4rem, 12vw, 10rem);
+            position: absolute;
+            opacity: 0;
+            text-transform: uppercase;
+            letter-spacing: 15px;
+            pointer-events: none;
+            will-change: transform, opacity, filter;
+            transition: color 0.3s;
+        }
+
+        /* --- DROPDOWNS --- */
+        .system-controls {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropbtn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            color: var(--platinum);
+            padding: 0.5rem 1rem;
+            font-family: var(--mono);
+            font-size: 9px;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 32px;
+            gap: 0.8rem;
+        }
+
+        body.light-mode .dropbtn {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        .dropbtn:hover {
+            border-color: var(--silver);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background: #0a0a0a;
+            min-width: 160px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8);
+            border: 1px solid var(--border);
+            z-index: 1001;
+            backdrop-filter: blur(10px);
+        }
+
+        body.light-mode .dropdown-content {
+            background: #ffffff;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .dropdown-content a {
+            color: var(--platinum);
+            padding: 1rem 1.5rem;
+            text-decoration: none;
+            display: block;
+            font-family: var(--mono);
+            font-size: 9px;
+            letter-spacing: 1px;
+            transition: 0.3s;
+        }
+
+        .dropdown-content a:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+        }
+
+        body.light-mode .dropdown-content a:hover {
+            background: rgba(0, 0, 0, 0.05);
+            color: #000;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        /* Refined Premium Radiant Colors */
+        #g-en {
+            color: #ffffff;
+            text-shadow: 0 0 40px rgba(255, 255, 255, 0.8), 0 0 80px rgba(192, 192, 192, 0.3);
+        }
+
+        /* Platinum */
+        #g-fr {
+            color: #ffca28;
+            text-shadow: 0 0 40px rgba(255, 202, 40, 0.6), 0 0 80px rgba(255, 202, 40, 0.2);
+        }
+
+        /* Gold */
+        #g-jp {
+            color: #ff2d55;
+            text-shadow: 0 0 40px rgba(255, 45, 85, 0.6), 0 0 80px rgba(255, 45, 85, 0.2);
+        }
+
+        /* Electric Sakura */
+        #g-ru {
+            color: #00d2ff;
+            text-shadow: 0 0 40px rgba(0, 210, 255, 0.6), 0 0 80px rgba(0, 210, 255, 0.2);
+        }
+
+        /* Icy Blue */
+        #g-zh {
+            color: #00ffa3;
+            text-shadow: 0 0 40px rgba(0, 255, 163, 0.6), 0 0 80px rgba(0, 255, 163, 0.2);
+        }
+
+        /* Jade */
+        #g-es {
+            color: #ff3c00;
+            text-shadow: 0 0 40px rgba(255, 60, 0, 0.6), 0 0 80px rgba(255, 60, 0, 0.2);
+        }
+
+        /* Red Shift */
+
+        .preloader-symbol-wrap {
+            position: relative;
+            z-index: 20;
+            opacity: 0;
+            transform: scale(0.8);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2.5rem;
+        }
+
+        .preloader-symbol {
+            width: 70px;
+            height: 70px;
+            background: #fff;
+            transform: rotate(45deg);
+            box-shadow: 0 0 40px var(--silver-glow), 0 0 80px rgba(192, 192, 192, 0.2);
+        }
+
+        .enter-btn-box {
+            padding: 1rem 3rem;
+            border: 1px solid var(--silver);
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(5px);
+            transition: 0.3s;
+            box-shadow: 0 0 20px rgba(192, 192, 192, 0.1);
+        }
+
+        .enter-btn-box:hover {
+            background: #fff;
+            color: #000;
+            box-shadow: 0 0 30px var(--silver-glow);
+        }
+
+        .enter-btn {
+            font-family: var(--mono);
+            font-size: 11px;
+            letter-spacing: 8px;
+            color: inherit;
+            text-transform: uppercase;
+        }
+
+        @keyframes pulse-text {
+
+            0%,
+            100% {
+                opacity: 0.3;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1.05);
+            }
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--silver);
+            transition: width 0.3s;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* --- LAYOUT --- */
+        section {
+            position: relative;
+            padding: 12vh 5vw;
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        /* --- HERO --- */
+        .hero {
+            height: 100vh;
+            text-align: center;
+            align-items: center;
+        }
+
+        .hero-title {
+            font-size: clamp(3rem, 15vw, 12rem);
+            line-height: 0.85;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+        }
+
+        .hero-sub {
+            font-family: var(--mono);
+            font-size: 0.9rem;
+            letter-spacing: 0.6rem;
+            text-transform: uppercase;
+            opacity: 0.4;
+            max-width: 800px;
+        }
+
+        .scroll-hint {
+            position: absolute;
+            bottom: 3rem;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: var(--mono);
+            font-size: 0.6rem;
+            letter-spacing: 4px;
+            opacity: 0.3;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .scroll-hint span {
+            width: 1px;
+            height: 50px;
+            background: linear-gradient(to bottom, var(--silver), transparent);
+            display: block;
+        }
+
+        /* --- GRID/GLASSMORPHISM --- */
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+
+        .glass-card {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 2px;
+            padding: 3.5rem;
+            transition: border-color 0.5s, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+        }
+
+        .glass-card:hover {
+            border-color: rgba(192, 192, 192, 0.4);
+            transform: translateY(-8px);
+        }
+
+        .card-idx {
+            font-family: var(--mono);
+            font-size: 0.7rem;
+            color: var(--silver);
+            opacity: 0.3;
+            margin-bottom: 2rem;
+            display: block;
+        }
+
+        .card-h {
+            font-family: var(--hanoble);
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-p {
+            font-size: 1rem;
+            line-height: 1.7;
+            opacity: 0.6;
+        }
+
+        /* --- BUTTON SYSTEM --- */
+        .btn-group {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 3.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            z-index: 10;
+        }
+
+        .btn {
+            padding: 1rem 2.8rem;
+            font-family: var(--mono);
+            font-size: 0.7rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            text-decoration: none;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--border);
+            color: var(--platinum);
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(5px);
+            border-radius: 2px;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--platinum);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: -1;
+        }
+
+        .btn:hover {
+            color: #000;
+            border-color: var(--platinum);
+            box-shadow: 0 0 30px var(--silver-glow);
+        }
+
+        .btn:hover::before {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border-color: rgba(192, 192, 192, 0.3);
+            backdrop-filter: none;
+        }
+
+        .btn-outline:hover {
+            border-color: #fff;
+            color: #fff;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .btn-outline::before {
+            display: none;
+        }
+
+        /* --- ACCESS GRID --- */
+        .access-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 4rem;
+        }
+
+        .access-card {
+            border: 1px solid var(--border);
+            padding: 2.5rem;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .access-card:hover {
+            background: rgba(255, 255, 255, 0.03);
+            border-color: var(--silver);
+            transform: translateY(-5px);
+        }
+
+        .access-card h4 {
+            font-family: var(--hanoble);
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            letter-spacing: 1px;
+        }
+
+        .access-card p {
+            font-size: 0.8rem;
+            opacity: 0.4;
+            font-family: var(--mono);
+        }
+
+        .access-tag {
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+            font-size: 8px;
+            font-family: var(--mono);
+            opacity: 0.2;
+        }
+
+        /* --- PROTOCOL STACK --- */
+        .protocol-stack {
+            display: flex;
+            justify-content: center;
+            gap: 4rem;
+            padding: 3rem 0;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            background: rgba(255, 255, 255, 0.01);
+            overflow: hidden;
+        }
+
+        .protocol-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            white-space: nowrap;
+        }
+
+        .protocol-icon {
+            width: 24px;
+            height: 24px;
+            filter: drop-shadow(0 0 10px currentColor);
+        }
+
+        .protocol-label {
+            font-family: var(--mono);
+            font-size: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* Specialty Colors */
+        .color-tor {
+            color: #A333C8;
+        }
+
+        /* Purple */
+        .color-aes {
+            color: #00FFCC;
+        }
+
+        /* Neon Mint */
+        .color-vpn {
+            color: #00A3FF;
+        }
+
+        /* Azure Blue */
+        .color-mesh {
+            color: #FFCC00;
+        }
+
+        /* Gold/Amber */
+        .color-quant {
+            color: #E5E4E2;
+        }
+
+        /* Platinum */
+
+        /* --- NEWS TICKER --- */
+        .news-ticker-wrap {
+            width: 100%;
+            background: var(--silver);
+            /* Solid Silver Bar */
+            border-bottom: 2px solid #000;
+            padding: 0.6rem 0;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            position: relative;
+            z-index: 5;
+            /* Lower than header-main */
+        }
+
+        .ticker-label {
+            padding: 0 2rem;
+            font-family: var(--mono);
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            color: #fff;
+            border-right: 2px solid #000;
+            background: #000;
+            /* Black Label Label */
+            position: relative;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .live-dot {
+            width: 8px;
+            height: 8px;
+            background: #ff0000;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #ff0000;
+            animation: blink 0.8s infinite;
+        }
+
+        @keyframes blink {
+            50% {
+                opacity: 0;
+            }
+        }
+
+        .ticker-content {
+            display: flex;
+            white-space: nowrap;
+            gap: 5rem;
+            animation: scroll-ticker 30s linear infinite;
+            padding-left: 2rem;
+        }
+
+        .ticker-item {
+            font-family: var(--mono);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: #000;
+            /* Black Bold Letters */
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .ticker-item::after {
+            content: '●';
+            font-size: 8px;
+            opacity: 0.3;
+        }
+
+        @keyframes scroll-ticker {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        /* --- FEATURE SECTION --- */
+        .split-section {
+            display: flex;
+            align-items: center;
+            gap: 8vw;
+        }
+
+        .split-content {
+            flex: 1;
+        }
+
+        .split-image {
+            flex: 1.2;
+            position: relative;
+            aspect-ratio: 16/9;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+
+        .split-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.7;
+            transition: transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .split-image:hover img {
+            transform: scale(1.05);
+            opacity: 0.9;
+        }
+
+        .section-tag {
+            font-family: var(--mono);
+            font-size: 0.7rem;
+            letter-spacing: 5px;
+            color: var(--silver);
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+
+        .section-h {
+            font-family: var(--hanoble);
+            font-size: 4rem;
+            line-height: 1.1;
+            margin-bottom: 2.5rem;
+            text-transform: uppercase;
+        }
+
+        .section-p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            opacity: 0.7;
+            margin-bottom: 2rem;
+        }
+
+        /* --- PROTOCOL DETAILS --- */
+        .protocol-matter {
+            background: linear-gradient(to bottom, transparent, #080808, transparent);
+        }
+
+        .matter-columns {
+            columns: 2;
+            column-gap: 5vw;
+            margin-top: 5rem;
+        }
+
+        .matter-p {
+            font-size: 1.1rem;
+            line-height: 2;
+            opacity: 0.5;
+            margin-bottom: 2rem;
+            text-indent: 2rem;
+        }
+
+        .matter-p strong {
+            color: var(--platinum);
+            font-family: var(--hanoble);
+            font-weight: normal;
+            letter-spacing: 1px;
+            opacity: 1;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            padding: 10vh 5vw 4rem;
+            border-top: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .footer-logo {
+            margin-bottom: 4rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 4rem;
+            margin-bottom: 4rem;
+        }
+
+        .trademark-line {
+            font-family: var(--mono);
+            font-size: 0.6rem;
+            letter-spacing: 3px;
+            opacity: 0.3;
+            margin-top: 3rem;
+            text-transform: uppercase;
+        }
+
+        /* --- PRELOADER --- */
+        #preloader {
+            position: fixed;
+            inset: 0;
+            background: #000;
+            z-index: 10000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+            cursor: pointer;
+        }
+
+        .preloader-symbol {
+            width: 80px;
+            height: 80px;
+            border: 2px solid var(--platinum);
+            transform: rotate(45deg);
+            box-shadow: 0 0 30px var(--silver-glow);
+        }
+
+        .preloader-text {
+            font-family: var(--mono);
+            font-size: 10px;
+            letter-spacing: 10px;
+            opacity: 0.4;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            50% {
+                opacity: 1;
+                letter-spacing: 12px;
+            }
+        }
+
+        /* --- MOBILE --- */
+        @media (max-width: 1024px) {
+            .grid-3 {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .section-h {
+                font-size: 3rem;
+            }
+
+            .split-section {
+                flex-direction: column;
+            }
+
+            .matter-columns {
+                columns: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .grid-3 {
+                grid-template-columns: 1fr;
+            }
+
+            nav {
+                display: none;
+            }
+
+            .hero-title {
+                font-size: 4rem;
+            }
+        }
+        /* --- AI ASSISTANT STYLES --- */
+        #ai-assistant-trigger {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            width: 70px;
+            height: 70px;
+            background: rgba(15, 15, 15, 0.8);
+            border: 1px solid rgba(192, 192, 192, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10000;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 0 25px var(--silver-glow), inset 0 0 15px rgba(192, 192, 192, 0.1);
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        #ai-assistant-trigger:hover {
+            transform: scale(1.1) rotate(5deg);
+            border-color: var(--silver);
+            box-shadow: 0 0 40px var(--silver-glow), inset 0 0 25px rgba(192, 192, 192, 0.2);
+        }
+
+        #ai-assistant-trigger svg {
+            width: 35px;
+            height: 35px;
+            filter: drop-shadow(0 0 8px #fff);
+        }
+
+        #ai-chat-window {
+            position: fixed;
+            bottom: 120px;
+            right: 40px;
+            width: 380px;
+            height: 550px;
+            background: rgba(10, 10, 10, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            display: none;
+            flex-direction: column;
+            z-index: 10001;
+            overflow: hidden;
+            backdrop-filter: blur(30px);
+            box-shadow: 0 25px 60px rgba(0,0,0,0.8);
+            transform: translateY(20px);
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        #ai-chat-window.active {
+            display: flex;
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .ai-chat-header {
+            padding: 20px 25px;
+            background: rgba(255, 255, 255, 0.03);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .ai-header-title {
+            font-family: var(--hanoble);
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            color: var(--platinum);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .ai-header-title span {
+            width: 8px;
+            height: 8px;
+            background: #fff;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #fff;
+            animation: pulse-glow 2s infinite;
+        }
+
+        @keyframes pulse-glow {
+            0% { opacity: 0.4; }
+            50% { opacity: 1; }
+            100% { opacity: 0.4; }
+        }
+
+        .ai-chat-close {
+            cursor: pointer;
+            opacity: 0.5;
+            transition: opacity 0.3s;
+            font-size: 1.5rem;
+        }
+
+        .ai-chat-close:hover { opacity: 1; }
+
+        #ai-chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            scrollbar-width: none;
+        }
+
+        #ai-chat-messages::-webkit-scrollbar { display: none; }
+
+        .ai-msg {
+            max-width: 85%;
+            padding: 12px 18px;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            border-radius: 15px;
+            font-family: var(--body);
+        }
+
+        .ai-msg.bot {
+            align-self: flex-start;
+            background: rgba(255, 255, 255, 0.05);
+            color: #eee;
+            border-bottom-left-radius: 2px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .ai-msg.user {
+            align-self: flex-end;
+            background: var(--silver);
+            color: #000;
+            border-bottom-right-radius: 2px;
+            font-weight: 600;
+        }
+
+        .ai-chat-input-area {
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.02);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            gap: 12px;
+        }
+
+        #ai-chat-input {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 12px 16px;
+            color: #fff;
+            font-family: var(--mono);
+            font-size: 0.75rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        #ai-chat-input:focus {
+            border-color: var(--silver);
+        }
+
+        .ai-send-btn {
+            width: 45px;
+            height: 45px;
+            border-radius: 12px;
+            background: var(--silver);
+            color: #000;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .ai-send-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .ai-typing {
+            font-size: 0.7rem;
+            opacity: 0.4;
+            font-family: var(--mono);
+            margin-top: 5px;
+            display: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            #ai-chat-window {
+                width: calc(100% - 40px);
+                height: 450px;
+                right: 20px;
+                bottom: 100px;
+            }
+            #ai-assistant-trigger {
+                bottom: 20px;
+                right: 20px;
+                width: 60px;
+                height: 60px;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div id="preloader" onclick="initExperience()">
+        <div class="preloader-greeting-container">
+            <div class="preloader-greeting" id="g-en">Hello</div>
+            <div class="preloader-greeting" id="g-fr">Bonjour</div>
+            <div class="preloader-greeting" id="g-jp">こんにちは</div>
+            <div class="preloader-greeting" id="g-ru">Привет</div>
+            <div class="preloader-greeting" id="g-zh">你好</div>
+            <div class="preloader-greeting" id="g-es">Hola</div>
+        </div>
+        <div class="preloader-symbol-wrap" id="preloaderFinal">
+            <div class="preloader-symbol"></div>
+            <div class="enter-btn-box">
+                <div class="enter-btn">ENTER SHIELD OS</div>
+            </div>
+        </div>
+        <div id="skip-intro"
+            style="position: fixed; bottom: 2rem; right: 2rem; font-family: var(--mono); font-size: 10px; letter-spacing: 4px; padding: 0.8rem 1.5rem; border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.5); backdrop-filter: blur(10px); color: rgba(255,255,255,0.4); cursor: pointer; z-index: 10001; transition: 0.3s;"
+            onclick="initExperience()"
+            onmouseover="this.style.borderColor='rgba(255,255,255,0.5)'; this.style.color='#fff'"
+            onmouseout="this.style.borderColor='rgba(255,255,255,0.1)'; this.style.color='rgba(255,255,255,0.4)'">
+            SKIP_INTRO // [ESC]
+        </div>
+    </div>
+
+    <canvas id="nebula"></canvas>
+
+    <div id="cursor"></div>
+    <div id="cursor-follower"></div>
+
+    <header>
+        <div class="header-main">
+            <a href="#hero" class="logo-group">
+                <div class="logo-symbol"></div>
+                <span class="logo-text">SHIELD OS</span>
+            </a>
+            <nav>
+                <a href="#ecosystem" class="nav-link">Ecosystem</a>
+                <a href="https://noor-cf2f7.web.app" class="nav-link messenger-link" style="color: #fff; font-weight: 800; text-shadow: 0 0 10px rgba(255,255,255,0.5);">Web App</a>
+                <a href="nodes.html" class="nav-link">Nodes</a>
+                <a href="history.html" class="nav-link">History</a>
+                <a href="news.html" class="nav-link">News</a>
+                <a href="about.html" class="nav-link">Identity</a>
+                <a href="support.html" class="nav-link">Support</a>
+            </nav>
+            <div class="system-controls">
+                <div class="dropdown">
+                    <button class="dropbtn">LANG: EN ▾</button>
+                    <div class="dropdown-content">
+                        <a href="#" onclick="changeLanguage('EN')">ENGLISH [EN]</a>
+                        <a href="#" onclick="changeLanguage('ES')">SPANISH [ES]</a>
+                        <a href="#" onclick="changeLanguage('FR')">FRENCH [FR]</a>
+                        <a href="#" onclick="changeLanguage('PT')">PORTUGUESE [PT]</a>
+                        <a href="#" onclick="changeLanguage('RU')">RUSSIAN [RU]</a>
+                        <a href="#" onclick="changeLanguage('DE')">GERMAN [DE]</a>
+                        <a href="#" onclick="changeLanguage('IT')">ITALIAN [IT]</a>
+                        <a href="#" onclick="changeLanguage('TR')">TURKISH [TR]</a>
+                        <a href="#" onclick="changeLanguage('HI')">HINDI [HI]</a>
+                        <a href="#" onclick="changeLanguage('JP')">JAPANESE [JP]</a>
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <button class="dropbtn">THEME ▾</button>
+                    <div class="dropdown-content">
+                        <a href="#" onclick="setTheme('black')">ONYX_BLACK</a>
+                        <a href="#" onclick="setTheme('light')">PLATINUM_LIGHT</a>
+                    </div>
+                </div>
+                <div style="font-family: var(--mono); font-size: 9px; opacity: 0.3; margin-left: 1rem;">
+                    v.9.0
+                </div>
+            </div>
+        </div>
+        <div class="news-ticker-wrap">
+            <div class="ticker-label">
+                <div class="live-dot"></div>
+                NET_UPLINK
+            </div>
+            <div class="ticker-content">
+                <div class="ticker-item">QUANTUM_CORE_v2.1.4_DEPLOYED</div>
+                <div class="ticker-item">ZERO_CACHE_SUCCESS_IN_MOBILE_NODES</div>
+                <div class="ticker-item">MESH_DENSITY_REACHES_8K_STATIONS</div>
+                <div class="ticker-item">NODE_CREDIT_◈_STABILIZED_AT_0.042</div>
+                <div class="ticker-item">NEW_ONION_ROUTING_v4_ACTIVE</div>
+                <!-- Duplicate for seamless loop -->
+                <div class="ticker-item">QUANTUM_CORE_v2.1.4_DEPLOYED</div>
+                <div class="ticker-item">ZERO_CACHE_SUCCESS_IN_MOBILE_NODES</div>
+                <div class="ticker-item">MESH_DENSITY_REACHES_8K_STATIONS</div>
+                <div class="ticker-item">NODE_CREDIT_◈_STABILIZED_AT_0.042</div>
+                <div class="ticker-item">NEW_ONION_ROUTING_v4_ACTIVE</div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- HERO SECTION -->
+        <section id="hero" class="hero">
+            <div class="container" style="display: flex; flex-direction: column; align-items: center;">
+                <h1 class="hero-title hanoble-glow reveal-text" id="hero-title">Infinity<br>Protocol</h1>
+                <p class="hero-sub reveal-item" id="hero-sub">The world's first Quantum Encrypted Signal. Talk through
+                    the Mesh, earn
+                    Node Credits, and stay invisible.</p>
+
+                <div class="btn-group reveal-item">
+                    <a href="download.html" id="hero-download" class="btn" style="background: #fff; color: #000; box-shadow: 0 0 40px rgba(255,255,255,0.3);">Download App</a>
+                    <a href="#terminals" id="hero-terminal" class="btn btn-outline">Access Terminals</a>
+                </div>
+                <div class="scroll-hint">
+                    SCROLL
+                    <span></span>
+                </div>
+            </div>
+            <!-- Decorative Background Item -->
+            <div
+                style="position: absolute; width: 80vw; height: 80vw; border: 1px solid var(--border); border-radius: 50%; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: -1; pointer-events: none;">
+            </div>
+            <div
+                style="position: absolute; width: 60vw; height: 60vw; border: 1px solid rgba(255,255,255,0.03); border-radius: 50%; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: -1; pointer-events: none;">
+            </div>
+        </section>
+
+        <!-- PROTOCOL BAR -->
+        <div class="protocol-stack">
+            <div class="protocol-item color-tor">
+                <svg class="protocol-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="9" />
+                    <circle cx="12" cy="12" r="6" />
+                    <circle cx="12" cy="12" r="3" />
+                </svg>
+                <span class="protocol-label">ONION_ROUTING_v4</span>
+            </div>
+            <div class="protocol-item color-aes">
+                <svg class="protocol-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="11" width="18" height="11" rx="2" />
+                    <path d="M7 11V7a5 5 0 0110 0v4" />
+                </svg>
+                <span class="protocol-label">AES_256_GCM</span>
+            </div>
+            <div class="protocol-item color-vpn">
+                <svg class="protocol-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+                </svg>
+                <span class="protocol-label">VPN_TUNNEL_L2TP</span>
+            </div>
+            <div class="protocol-item color-mesh">
+                <svg class="protocol-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="6" cy="18" r="3" />
+                    <circle cx="18" cy="6" r="3" />
+                    <path d="M9 16l6-8" />
+                </svg>
+                <span class="protocol-label">DECENTRAL_MESH</span>
+            </div>
+            <div class="protocol-item color-quant">
+                <svg class="protocol-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 2l3 6 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1 3-6z" />
+                </svg>
+                <span class="protocol-label">QUANTUM_SIG_CORE</span>
+            </div>
+        </div>
+
+        <!-- SYSTEM TERMINALS SECTION -->
+        <section id="terminals" style="background: rgba(255,255,255,0.01);">
+            <div class="container">
+                <span class="section-tag fade-up">THE SYSTEM // 00</span>
+                <h2 class="section-h hanoble-glow fade-up">Comms Terminals</h2>
+                <p class="section-p fade-up" style="max-width: 600px;">Explore our secure chat network. Learn
+                    how we keep your private talks truly secret.</p>
+
+                <div class="access-grid">
+                    <a href="history.html" class="access-card fade-up">
+                        <span class="access-tag">VIEW_JOURNEY</span>
+                        <h4>Our Journey</h4>
+                        <p>How we built Shield OS and the Quantum Mesh network.</p>
+                    </a>
+                    <a href="about.html" class="access-card fade-up">
+                        <span class="access-tag">VIEW_MISSION</span>
+                        <h4>The Collective</h4>
+                        <p>Why we believe your voice is the most valuable asset you own.</p>
+                    </a>
+                    <a href="nodes.html" class="access-card fade-up">
+                        <span class="access-tag">VIEW_NODES</span>
+                        <h4>Network Pulse</h4>
+                        <p>Real-time view of active global nodes and quantum exit points.</p>
+                    </a>
+                    <a href="kernel.html" class="access-card fade-up">
+                        <span class="access-tag">VIEW_CORE</span>
+                        <h4>Quantum Core</h4>
+                        <p>The system brain that processes every chat through heavy E2E encryption.</p>
+                    </a>
+                    <a href="vault.html" class="access-card fade-up">
+                        <span class="access-tag">VIEW_VAULT</span>
+                        <h4>Shield Wallet</h4>
+                        <p>Securely store your Node Credits (◈) and manage your private keys.</p>
+                    </a>
+                    <a href="privacy.html" class="access-card fade-up">
+                        <span class="access-tag">VIEW_PROMISE</span>
+                        <h4>Our Promise</h4>
+                        <p>The legal protocols that ensure we can never peek inside your life.</p>
+                    </a>
+                    <a href="void.html" class="access-card fade-up">
+                        <span class="access-tag">VIEW_ONION</span>
+                        <h4>Onion Route</h4>
+                        <p>A hidden path for your calls using multiple layers of random noise.</p>
+                    </a>
+                    <a href="support.html" class="access-card fade-up">
+                        <span class="access-tag">VIEW_HELP</span>
+                        <h4>Support Link</h4>
+                        <p>Direct encrypted uplink to our technicians for technical help.</p>
+                    </a>
+                    <a href="download.html" class="access-card fade-up">
+                        <span class="access-tag">GET_BINARY</span>
+                        <h4>Install Node</h4>
+                        <p>Download the SHIELD binary and become an active operative today.</p>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ECOSYSTEM SECTION -->
+        <section id="ecosystem">
+            <div class="container">
+                <span class="section-tag fade-up">01 // ARCHITECTURE</span>
+                <h2 class="section-h hanoble-glow fade-up">Digital Sovereignty<br>Infrastructure</h2>
+
+                <div class="grid-3">
+                    <div class="glass-card fade-up">
+                        <span class="card-idx">01.1</span>
+                        <h3 class="card-h">Node Credits</h3>
+                        <p class="card-p">Earn NP (◈) just by staying online. Use your credits to unlock Tor Proxies and
+                            premium VPN uplinks.</p>
+                    </div>
+                    <div class="glass-card fade-up">
+                        <span class="card-idx">01.2</span>
+                        <h3 class="card-h">Quantum Mesh</h3>
+                        <p class="card-p">No central server. Your messages bounce between decentralized nodes, making
+                            them impossible to intercept.</p>
+                    </div>
+                    <div class="glass-card fade-up">
+                        <span class="card-idx">01.3</span>
+                        <h3 class="card-h">Onion Voice</h3>
+                        <p class="card-p">Wrap your calls in multiple layers of encryption. Your voice travels through a
+                            deep tunnel of random traffic.</p>
+                    </div>
+                    <div class="glass-card fade-up">
+                        <span class="card-idx">01.4</span>
+                        <h3 class="card-h">Auto-Forget</h3>
+                        <p class="card-p">Our Chat Engine wipes your session data every 60 seconds, leaving zero
+                            evidence of your conversation.</p>
+                    </div>
+                    <div class="glass-card fade-up">
+                        <span class="card-idx">01.5</span>
+                        <h3 class="card-h">Share Doc</h3>
+                        <p class="card-p">Broadcast private documents and images directly to other nodes without leaving
+                            a trace on the internet.</p>
+                    </div>
+                    <div class="glass-card fade-up">
+                        <span class="card-idx">01.6</span>
+                        <h3 class="card-h">Anti-Tap Pro</h3>
+                        <p class="card-p">Advanced protection that blocks screen recordings, microphone taps, and
+                            keyboard trackers 24/7.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TECHNOLOGY DETAIL -->
+        <section id="technology">
+            <div class="container split-section">
+                <div class="split-content">
+                    <span class="section-tag fade-right">02 // THE ENGINE</span>
+                    <h2 class="section-h hanoble-glow fade-right">Quantum<br>Core v2.1</h2>
+                    <p class="section-p fade-right">Inside SHIELD is the Quantum Core engine. It is a masterpiece of
+                        speed
+                        and safety. Built by the Shield OS team, it uses AES-256 and RSA-4096 to ensure your private
+                        conversations
+                        remain yours forever.</p>
+                    <p class="section-p fade-right" style="opacity: 0.4; font-size: 1rem;">It manages the Quantum Mesh,
+                        handling millions of encrypted packets every second without ever looking at what's inside. Your
+                        talk is
+                        safe behind the silver wall.</p>
+                    <div style="margin-top: 3rem;" class="fade-right">
+                        <div style="display: flex; gap: 3rem;">
+                            <div>
+                                <h4 style="font-family: var(--mono); font-size: 2rem; color: var(--platinum);">0.00ms
+                                </h4>
+                                <p
+                                    style="font-family: var(--mono); font-size: 10px; opacity: 0.3; letter-spacing: 2px;">
+                                    LATENCY FLOOR</p>
+                            </div>
+                            <div>
+                                <h4 style="font-family: var(--mono); font-size: 2rem; color: var(--platinum);">∞</h4>
+                                <p
+                                    style="font-family: var(--mono); font-size: 10px; opacity: 0.3; letter-spacing: 2px;">
+                                    MAX ENTROPY</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="split-image fade-left">
+                    <img src="../website/shield_infinity_data_matrix.png" alt="Core Matrix">
+                </div>
+            </div>
+        </section>
+
+        <!-- NETWORK SECTION -->
+        <section id="identity">
+            <div class="container split-section" style="flex-direction: row-reverse;">
+                <div class="split-content">
+                    <span class="section-tag fade-left">03 // WORLDWIDE STATIONS</span>
+                    <h2 class="section-h hanoble-glow fade-left">The Private<br>Network</h2>
+                    <p class="section-p fade-left">SHIELD OS reaches far beyond your phone. It is powered by a huge
+                        network of super-secure stations hidden around the world, making sure your calls stay private
+                        no matter where you are.</p>
+                    <p class="section-p fade-left" style="opacity: 0.4; font-size: 1rem;">When you talk on SHIELD, you
+                        are
+                        stepping into a private world where the normal rules of tracking and spying do not exist. Your
+                        voice is finally invisible.</p>
+                    <ul style="list-style: none; margin-top: 2rem;" class="fade-left">
+                        <li
+                            style="margin-bottom: 1rem; border-left: 2px solid var(--border); padding-left: 1.5rem; opacity: 0.6;">
+                            CALLS: SECURE</li>
+                        <li
+                            style="margin-bottom: 1rem; border-left: 2px solid var(--border); padding-left: 1.5rem; opacity: 0.6;">
+                            CONNECT: PERFECT</li>
+                        <li
+                            style="margin-bottom: 1rem; border-left: 2px solid var(--border); padding-left: 1.5rem; opacity: 0.6;">
+                            AUDIO: STAINLESS</li>
+                    </ul>
+                </div>
+                <div class="split-image fade-right">
+                    <img src="../website/shield_infinity_secure_node.png" alt="Global Nodes">
+                </div>
+            </div>
+        </section>
+
+        <!-- PRIVACY DEEP DIVE -->
+        <section id="privacy" class="protocol-matter">
+            <div class="container">
+                <span class="section-tag fade-up">04 // LEGAL & PRIVACY</span>
+                <h2 class="section-h hanoble-glow fade-up">Absolute Privacy<br>By Design</h2>
+
+                <div class="matter-columns">
+                    <p class="matter-p fade-up">Real privacy means having <strong>zero traces left behind</strong>. At
+                        SHIELD OS, we built everything so that your data disappears like a ghost once you are done using
+                        it.</p>
+
+                    <p class="matter-p fade-up">Our <strong>Silver Lock</strong> system doesn't just hide your data; it
+                        mixes it with random noise. This makes it impossible for even the most powerful computers to
+                        find your real talk among the static.</p>
+
+                    <p class="matter-p fade-up">Also, your <strong>Digital Name</strong> changes every 60 seconds. This
+                        means no website or company can follow you as you move through the internet. You are a new
+                        person every minute.</p>
+
+                    <p class="matter-p fade-up">We do not keep any logs because there is nothing to keep. Our system
+                        works in <strong>temporary memory</strong> only. Once the power goes out, all your data vanishes
+                        forever.</p>
+
+                    <p class="matter-p fade-up">We will never give your data away to anyone because we physically
+                        <strong>do not have it</strong>. The system is designed so that even we cannot peek inside your
+                        life.
+                    </p>
+
+                    <p class="matter-p fade-up">SHIELD OS is more than just an app; it is your <strong>absolute
+                            freedom</strong>. By using this phone, you are taking back your power from a world that
+                        wants to watch you.</p>
+                    commoditize your every movement. You are no longer a user; you are a ghost in the machine.</p>
+                </div>
+
+                <div style="margin-top: 5rem; text-align: center;" class="fade-up">
+                    <a href="#" class="glass-card"
+                        style="display: inline-block; padding: 1.5rem 4rem; text-decoration: none; color: var(--platinum); font-family: var(--mono); letter-spacing: 5px; font-size: 0.8rem;">INITIATE
+                        FULL PROTOCOL</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer style="margin-top: 10rem; border-top: 1px solid var(--border); background: rgba(0,0,0,0.3);">
+        <div class="container" style="max-width: 1000px; margin: 0 auto; padding: 6rem 2rem;">
+            <div class="footer-logo"
+                style="font-family: var(--hanoble); font-size: 2.5rem; letter-spacing: 12px; margin-bottom: 3rem; text-align: center; color: var(--platinum);">
+                SHIELD OS</div>
+
+            <div class="footer-context"
+                style="font-family: var(--mono); font-size: 11px; line-height: 2; color: var(--silver); opacity: 0.75; text-align: left; margin-bottom: 4rem;">
+                <p style="margin-bottom: 2rem; font-weight: 800; color: #fff; letter-spacing: 1px;">ALL RIGHTS RESERVED
+                    © 2024-2026 SHIELD OS Protocol Foundation.</p>
+
+                <p style="margin-bottom: 2rem;">
+                    All technical assets, cryptographic binaries, network topologies, and algorithmic implementations
+                    contained on this platform are the exclusive intellectual property of the SHIELD Protocol
+                    Foundation.
+                </p>
+
+                <p style="margin-bottom: 2rem;">
+                    No portion of this software, including the graphical user interface, backend routing code, or
+                    AES-GCM integrated SDKs may be reproduced, reverse-engineered, decompiled, or distributed without
+                    express written cryogenic authorization. Any unauthorized probing of network endpoints or disruption
+                    of node activity is strictly prohibited and governed by international cyberspace jurisdiction codes.
+                </p>
+
+                <p style="margin-bottom: 2rem;">
+                    By downloading the SHIELD OS APK or utilizing the Web3 SDK, you agree to assume all liability for
+                    data transmission. SHIELD OS is provided "AS IS", without warranty of any kind, express or implied,
+                    including but not limited to the warranties of merchantability, fitness for a particular purpose and
+                    noninfringement. In no event shall the authors or copyright holders be liable for any claim, damages
+                    or other liability.
+                </p>
+            </div>
+
+            <div class="footer-bottom-links"
+                style="display: flex; flex-wrap: wrap; justify-content: center; gap: 2rem; align-items: center; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 3rem;">
+                <a href="privacy.html" class="nav-link"
+                    style="font-size: 10px; letter-spacing: 3px; text-transform: uppercase;">Privacy_Policy</a>
+                <span style="opacity: 0.1; color: #fff;">|</span>
+                <a href="terms.html" class="nav-link"
+                    style="font-size: 10px; letter-spacing: 3px; text-transform: uppercase;">Terms_of_Engagement</a>
+                <span style="opacity: 0.1; color: #fff;">|</span>
+                <a href="licenses.html" class="nav-link"
+                    style="font-size: 10px; letter-spacing: 3px; text-transform: uppercase;">Licenses</a>
+                <span style="opacity: 0.1; color: #fff;">|</span>
+                <a href="products.html" class="nav-link"
+                    style="font-size: 10px; letter-spacing: 3px; text-transform: uppercase;">Ecosystem</a>
+                <span style="opacity: 0.1; color: #fff;">|</span>
+                <a href="support.html" class="nav-link"
+                    style="font-size: 10px; letter-spacing: 3px; text-transform: uppercase;">Support</a>
+            </div>
+
+            <div
+                style="text-align: center; margin-top: 4rem; font-family: var(--mono); font-size: 9px; opacity: 0.2; letter-spacing: 5px;">
+                LOC_DATA_SIGNAL // ENCRYPTED_HANDSHAKE_SUCCESSFUL
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // --- SMOOTH SCROLL (LENIS) ---
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            orientation: 'vertical',
+            gestureOrientation: 'vertical',
+            smoothWheel: true,
+            wheelMultiplier: 1,
+            smoothTouch: false,
+            touchMultiplier: 2,
+            infinite: false,
+        })
+
+        function raf(time) {
+            lenis.raf(time)
+            requestAnimationFrame(raf)
+        }
+        requestAnimationFrame(raf)
+
+        // --- GSAP CONFIG ---
+        gsap.registerPlugin(ScrollTrigger);
+
+        // --- NEBULA BACKGROUND ---
+        const canvas = document.getElementById('nebula');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function initNebula() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            particles = [];
+            for (let i = 0; i < 200; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    size: Math.random() * 2 + 0.5,
+                    speedX: (Math.random() - 0.5) * 0.2,
+                    speedY: (Math.random() - 0.5) * 0.2,
+                    opacity: Math.random() * 0.4 + 0.1
+                });
+            }
+        }
+
+        function animateNebula() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.x += p.speedX;
+                p.y += p.speedY;
+                if (p.x < 0 || p.x > canvas.width) p.speedX *= -1;
+                if (p.y < 0 || p.y > canvas.height) p.speedY *= -1;
+
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(255, 255, 255, ${p.opacity})`;
+                ctx.fill();
+            });
+            requestAnimationFrame(animateNebula);
+        }
+
+        window.addEventListener('resize', initNebula);
+        initNebula();
+        animateNebula();
+
+        // --- SCROLL ANIMATIONS ---
+        function initAnimations() {
+            // Header Scroll Effect
+            ScrollTrigger.create({
+                start: 'top -50',
+                onUpdate: (self) => {
+                    if (self.direction === 1) {
+                        document.querySelector('header').classList.add('scrolled');
+                    } else if (self.scroll() < 50) {
+                        document.querySelector('header').classList.remove('scrolled');
+                    }
+                }
+            });
+
+            // Fade Up Elements
+            gsap.utils.toArray('.fade-up').forEach(el => {
+                gsap.from(el, {
+                    scrollTrigger: {
+                        trigger: el,
+                        start: 'top 90%',
+                    },
+                    y: 60,
+                    opacity: 0,
+                    duration: 1.2,
+                    ease: 'expo.out'
+                });
+            });
+
+            // Fade Sides
+            gsap.utils.toArray('.fade-left').forEach(el => {
+                gsap.from(el, {
+                    scrollTrigger: { trigger: el, start: 'top 85%' },
+                    x: -100, opacity: 0, duration: 1.5, ease: 'expo.out'
+                });
+            });
+
+            gsap.utils.toArray('.fade-right').forEach(el => {
+                gsap.from(el, {
+                    scrollTrigger: { trigger: el, start: 'top 85%' },
+                    x: 100, opacity: 0, duration: 1.5, ease: 'expo.out'
+                });
+            });
+
+            // Hero Specific
+            gsap.from('.hero-title', { y: 100, opacity: 0, duration: 2, ease: 'expo.out', delay: 0.5 });
+            gsap.from('.hero-sub', { y: 50, opacity: 0, duration: 1.5, ease: 'expo.out', delay: 0.8 });
+            gsap.from('.btn-group', { y: 40, opacity: 0, duration: 1.5, ease: 'expo.out', delay: 1.1 });
+        }
+
+        // --- TRANSLATION SYSTEM ---
+        const translations = {
+            'EN': {
+                title: 'Infinity<br>Protocol',
+                sub: 'The world\'s first Quantum Encrypted Signal. Talk through the Mesh, earn Node Credits, and stay invisible.',
+                download: 'Download App',
+                terminal: 'Access Terminals',
+                scroll: 'SCROLL',
+                uplink: 'NET_UPLINK'
+            },
+            'ES': {
+                title: 'Protocolo<br>Infinity',
+                sub: 'La primera señal cifrada cuántica del mundo. Habla a través de la red Mesh, gana créditos de nodo y mantente invisible.',
+                download: 'Descargar App',
+                terminal: 'Acceso Terminales',
+                scroll: 'BAJAR',
+                uplink: 'CONEXIÓN_RED'
+            },
+            'FR': {
+                title: 'Protocole<br>Infinity',
+                sub: 'Le premier signal crypté quantique au monde. Parlez à travers le Mesh, gagnez des crédits de nœud et restez invisible.',
+                download: 'Télécharger',
+                terminal: 'Accès Terminaux',
+                scroll: 'DÉFILER',
+                uplink: 'LIAISON_RÉSEAU'
+            },
+            'PT': {
+                title: 'Protocolo<br>Infinity',
+                sub: 'O primeiro sinal com criptografia quântica do mundo. Fale através da malha, ganhe créditos e fique invisível.',
+                download: 'Baixar Aplicativo',
+                terminal: 'Acessar Terminais',
+                scroll: 'ROLAR',
+                uplink: 'UPLINK_REDE'
+            },
+            'RU': {
+                title: 'Протокол<br>Инфинити',
+                sub: 'Первый в мире квантовый зашифрованный сигнал. Говорите через Mesh, зарабатывайте кредиты узлов и оставайтесь невидимыми.',
+                download: 'Скачать APK',
+                terminal: 'Терминалы',
+                scroll: 'ВНИЗ',
+                uplink: 'СВЯЗЬ_С_СЕТЬЮ'
+            },
+            'DE': {
+                title: 'Infinity<br>Protokoll',
+                sub: 'Das weltweit erste quantenverschlüsselte Signal. Sprechen Sie über das Mesh und bleiben Sie unsichtbar.',
+                download: 'App herunterladen',
+                terminal: 'Terminals zugreifen',
+                scroll: 'SCROLLEN',
+                uplink: 'NETZ_UPLINK'
+            },
+            'IT': {
+                title: 'Protocollo<br>Infinity',
+                sub: 'Il primo segnale criptato quantistico al mondo. Parla attraverso il Mesh e rimani invisibile.',
+                download: 'Scarica App',
+                terminal: 'Accedi ai Terminali',
+                scroll: 'SCORRI',
+                uplink: 'UPLINK_RETE'
+            },
+            'TR': {
+                title: 'Sonsuzluk<br>Protokolü',
+                sub: 'Dünyanın ilk kuantum şifreli sinyali. Ağ üzerinden konuşun, kredi kazanın ve görünmez kalın.',
+                download: 'Uygulamayı İndir',
+                terminal: 'Terminallere Eriş',
+                scroll: 'KAYDIR',
+                uplink: 'AĞ_YÜKLEME'
+            },
+            'HI': {
+                title: 'इन्फिनिटी<br>प्रोटोकॉल',
+                sub: 'दुनिया का पहला क्वांटम एन्क्रिप्टेड सिग्नल। जाल के माध्यम से बात करें और अदृश्य रहें।',
+                download: 'ऐप डाउनलोड करें',
+                terminal: 'टर्मिनल एक्सेस करें',
+                scroll: 'स्क्रॉल करें',
+                uplink: 'नेट_अपलिंक'
+            },
+            'JP': {
+                title: 'インフィニティ<br>プロトコル',
+                sub: '世界初の量子暗号化信号。メッシュを通じて話し、ノードクレジットを獲得し、目に見えないままになります。',
+                download: 'アプリをダウンロード',
+                terminal: 'ターミナルにアクセス',
+                scroll: 'スクロール',
+                uplink: 'ネットワーク接続'
+            }
+        };
+
+        function changeLanguage(lang) {
+            localStorage.setItem('shield_lang', lang);
+            const data = translations[lang];
+            if (!data) return;
+
+            const btns = document.querySelectorAll('.dropbtn');
+            if (btns.length > 0) btns[0].innerText = `LANG: ${lang} ▾`;
+
+            // Update Hero
+            if (document.getElementById('hero-title')) {
+                gsap.to(['#hero-title', '#hero-sub', '.btn', '.scroll-hint', '.ticker-label'], {
+                    opacity: 0,
+                    y: -10,
+                    duration: 0.3,
+                    onComplete: () => {
+                        document.getElementById('hero-title').innerHTML = data.title;
+                        document.getElementById('hero-sub').innerText = data.sub;
+                        const downloadBtn = document.getElementById('hero-download');
+                        const terminalBtn = document.getElementById('hero-terminal');
+                        if (downloadBtn) downloadBtn.innerText = data.download;
+                        if (terminalBtn) terminalBtn.innerText = data.terminal;
+                        const hint = document.querySelector('.scroll-hint');
+                        if (hint) {
+                            const textNode = Array.from(hint.childNodes).find(node => node.nodeType === 3 && node.textContent.trim() !== "");
+                            if (textNode) textNode.textContent = data.scroll;
+                        }
+                        const label = document.querySelector('.ticker-label');
+                        if (label) {
+                            const labelText = label.childNodes[2]; // After the dot
+                            if (labelText) labelText.textContent = data.uplink;
+                        }
+                        gsap.to(['#hero-title', '#hero-sub', '.btn', '.scroll-hint', '.ticker-label'], { opacity: 1, y: 0, duration: 0.5 });
+                    }
+                });
+            }
+        }
+
+        // Init Language
+        function initLanguage() {
+            const savedLang = localStorage.getItem('shield_lang') || 'EN';
+            changeLanguage(savedLang);
+        }
+
+        // --- THEME SYSTEM ---
+        function setTheme(theme) {
+            if (theme === 'light') {
+                document.body.classList.add('light-mode');
+                localStorage.setItem('shield_theme', 'light');
+            } else {
+                document.body.classList.remove('light-mode');
+                localStorage.setItem('shield_theme', 'black');
+            }
+        }
+
+        // Init Theme
+        const savedTheme = localStorage.getItem('shield_theme');
+        if (savedTheme === 'light') setTheme('light');
+
+        // --- PRELOADER & START ---
+        function initPreloader() {
+            // Bypass if already seen in session
+            if (sessionStorage.getItem('shield_preloader_seen')) {
+                document.getElementById('preloader').style.display = 'none';
+                initAnimations();
+                return;
+            }
+
+            const greetings = [
+                '#g-en', '#g-fr', '#g-jp', '#g-ru', '#g-zh', '#g-es'
+            ];
+
+            let tl = gsap.timeline();
+
+            // Cinematic 3D Zoom Effect
+            greetings.forEach((id, index) => {
+                tl.fromTo(id,
+                    {
+                        opacity: 0,
+                        z: -1000,
+                        scale: 0.1,
+                        filter: 'blur(20px)',
+                        letterSpacing: '50px'
+                    },
+                    {
+                        opacity: 1,
+                        z: 0,
+                        scale: 1,
+                        filter: 'blur(0px)',
+                        letterSpacing: '15px',
+                        duration: 0.8,
+                        ease: "expo.out"
+                    }
+                )
+                    .to(id, {
+                        opacity: 0,
+                        z: 500,
+                        scale: 1.5,
+                        filter: 'blur(10px)',
+                        duration: 0.6,
+                        ease: "expo.in",
+                        delay: 0.1
+                    });
+            });
+
+            tl.to("#preloaderFinal", {
+                opacity: 1,
+                scale: 1,
+                duration: 1.5,
+                ease: "elastic.out(1, 0.7)"
+            });
+        }
+
+        window.addEventListener('load', initPreloader);
+
+        function initExperience() {
+            sessionStorage.setItem('shield_preloader_seen', 'true');
+            gsap.to('#preloader', {
+                opacity: 0,
+                duration: 1.5,
+                ease: "expo.inOut",
+                onComplete: () => {
+                    document.getElementById('preloader').style.display = 'none';
+                    initAnimations();
+                    initLanguage();
+                }
+            });
+        }
+
+        // --- CURSOR SYSTEM ---
+        const cursor = document.getElementById('cursor');
+        const follower = document.getElementById('cursor-follower');
+
+        window.addEventListener('mousemove', (e) => {
+            gsap.set(cursor, { x: e.clientX, y: e.clientY });
+            gsap.to(follower, { x: e.clientX, y: e.clientY, duration: 0.15 });
+        });
+
+        document.querySelectorAll('a, .glass-card').forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                gsap.to(follower, { width: 60, height: 60, background: 'rgba(255,255,255,0.1)', duration: 0.3 });
+            });
+            el.addEventListener('mouseleave', () => {
+                gsap.to(follower, { width: 30, height: 30, background: 'transparent', duration: 0.3 });
+            });
+        });
+
+        // Smooth Scroll to Anchors
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                lenis.scrollTo(this.getAttribute('href'));
+            });
+        });
+
+    </script>
+    <!-- AI ASSISTANT COMPONENTS -->
+    <div id="ai-assistant-trigger" title="AI Assistant">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2L14.85 9.15L22 12L14.85 14.85L12 22L9.15 14.85L2 12L9.15 9.15L12 2Z" fill="white" />
+            <circle cx="12" cy="12" r="3" fill="rgba(255,255,255,0.5)" />
+        </svg>
+    </div>
+
+    <div id="ai-chat-window">
+        <div class="ai-chat-header">
+            <div class="ai-header-title">
+                <span></span>
+                SHIELD ASSISTANT
+            </div>
+            <div class="ai-chat-close" onclick="toggleAIChat()">&times;</div>
+        </div>
+        <div id="ai-chat-messages">
+            <div class="ai-msg bot">Hello! I am your SHIELD AI Assistant. How can I facilitate your secure communication needs today?</div>
+        </div>
+        <div class="ai-typing" id="ai-typing">ANALYZING SIGNAL...</div>
+        <div class="ai-chat-input-area">
+            <input type="text" id="ai-chat-input" placeholder="Type a message..." onkeydown="if(event.key==='Enter') sendAIMessage()">
+            <button class="ai-send-btn" onclick="sendAIMessage()">
+                <svg viewBox="0 0 24 24" fill="none" style="width:18px; height:18px;"><path d="M22 2L11 13M22 2L15 22L11 13L2 9L22 2Z" stroke="black" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // AI Assistant Logic
+        const aiTrigger = document.getElementById('ai-assistant-trigger');
+        const aiWindow = document.getElementById('ai-chat-window');
+        const aiMessages = document.getElementById('ai-chat-messages');
+        const aiInput = document.getElementById('ai-chat-input');
+        const aiTyping = document.getElementById('ai-typing');
+
+        function toggleAIChat() {
+            const isActive = aiWindow.classList.toggle('active');
+            if (isActive) {
+                setTimeout(() => aiInput.focus(), 400);
+            }
+        }
+
+        aiTrigger.onclick = toggleAIChat;
+
+        async function sendAIMessage() {
+            const text = aiInput.value.trim();
+            if (!text) return;
+
+            // Add user message
+            const userMsg = document.createElement('div');
+            userMsg.className = 'ai-msg user';
+            userMsg.textContent = text;
+            aiMessages.appendChild(userMsg);
+            aiInput.value = '';
+            aiMessages.scrollTop = aiMessages.scrollHeight;
+
+            // Show typing
+            aiTyping.style.display = 'block';
+
+            try {
+                const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer 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'
+                    },
+                    body: JSON.stringify({
+                        model: 'llama-3.3-70b-versatile',
+                        messages: [
+                            { role: "system", content: "You are the SHIELD OS AI Assistant. You are professional, secure-oriented, and helpful. You speak plainly and clearly. You are helping users on the landing page of SHIELD OS, a quantum-encrypted ecosystem." },
+                            { role: "user", content: text }
+                        ]
+                    })
+                });
+
+                const data = await response.json();
+                const reply = data.choices?.[0]?.message?.content || "I'm having trouble connecting to the secure matrix. Please try again.";
+
+                // Add bot message
+                const botMsg = document.createElement('div');
+                botMsg.className = 'ai-msg bot';
+                botMsg.textContent = reply;
+                aiMessages.appendChild(botMsg);
+            } catch (error) {
+                const errorMsg = document.createElement('div');
+                errorMsg.className = 'ai-msg bot';
+                errorMsg.textContent = "Signal interference detected. Encryption link unstable.";
+                aiMessages.appendChild(errorMsg);
+            } finally {
+                aiTyping.style.display = 'none';
+                aiMessages.scrollTop = aiMessages.scrollHeight;
+            }
+        }
+        // DYNAMIC LINK FIXER FOR LOCAL VS PROD
+        document.addEventListener('DOMContentLoaded', () => {
+            const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+            const messengerLinks = document.querySelectorAll('.messenger-link');
+            
+            messengerLinks.forEach(link => {
+                if (isLocal) {
+                    link.href = 'http://localhost:5000';
+                } else {
+                    link.href = 'https://noor-cf2f7.web.app';
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

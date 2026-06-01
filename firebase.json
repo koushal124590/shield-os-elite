@@ -1,0 +1,67 @@
+{
+  "hosting": [
+    {
+      "target": "app",
+      "public": "www",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "rewrites": [
+        {
+          "source": "**",
+          "destination": "/index.html"
+        }
+      ]
+    },
+    {
+      "target": "branding",
+      "public": "app website",
+      "ignore": [
+        "firebase.json",
+        "**/.*"
+      ],
+      "headers": [
+        {
+          "source": "releases/**",
+          "headers": [
+            {
+              "key": "Cache-Control",
+              "value": "public, max-age=604800, immutable"
+            }
+          ]
+        },
+        {
+          "source": "releases/*.bin",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/vnd.android.package-archive"
+            },
+            {
+              "key": "Content-Disposition",
+              "value": "attachment; filename=\"Shield-OS-Elite-v8.2.3.apk\""
+            }
+          ]
+        },
+        {
+          "source": "releases/*.zip",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/zip"
+            },
+            {
+              "key": "Content-Disposition",
+              "value": "attachment; filename=\"Shield-OS-Elite-v8.2.3.zip\""
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "database": {
+    "rules": "database.rules.json"
+  }
+}

@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHIELD HELP // HELP CENTER</title>
+    <link href="https://fonts.cdnfonts.com/css/hanoble" rel="stylesheet">
+    <link href="https://api.fontshare.com/v2/css?f[]=jet-brains-mono@100,200,400&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <style>
+        :root {
+            --bg: #030303;
+            --silver: #C0C0C0;
+            --platinum: #E5E4E2;
+            --border: rgba(255, 255, 255, 0.05);
+            --hanoble: 'Hanoble', serif;
+            --mono: 'JetBrains Mono', monospace;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: none;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--platinum);
+            font-family: 'Satoshi', sans-serif;
+        }
+
+        #cursor {
+            position: fixed;
+            width: 8px;
+            height: 8px;
+            background: #fff;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 10000;
+            mix-blend-mode: difference;
+            top: 0;
+            left: 0;
+        }
+
+        #cursor-follower {
+            position: fixed;
+            width: 32px;
+            height: 32px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            top: 0;
+            left: 0;
+            mix-blend-mode: difference;
+        }
+
+        header {
+            padding: 3rem 5vw;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo {
+            font-family: var(--hanoble);
+            text-decoration: none;
+            color: var(--silver);
+            font-size: 1.2rem;
+        }
+
+        nav {
+            display: flex;
+            gap: 2rem;
+            margin-left: auto;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--silver);
+            font-family: var(--mono);
+            font-size: 10px;
+            opacity: 0.6;
+            transition: 0.3s;
+        }
+
+        nav a:hover {
+            opacity: 1;
+        }
+
+        section {
+            min-height: 100vh;
+            padding: 15vh 5vw;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        h1 {
+            font-family: var(--hanoble);
+            font-size: 4rem;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            color: var(--silver);
+        }
+
+        .tagline {
+            font-family: var(--mono);
+            font-size: 0.8rem;
+            opacity: 0.4;
+            letter-spacing: 2px;
+            color: var(--platinum);
+            margin-bottom: 3rem;
+        }
+
+        .form-container {
+            width: 100%;
+            max-width: 600px;
+            border: 1px solid var(--border);
+            padding: 3rem;
+            background: rgba(255, 255, 255, 0.01);
+        }
+
+        .input-group {
+            margin-bottom: 2.5rem;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            font-family: var(--mono);
+            font-size: 0.6rem;
+            opacity: 0.4;
+            margin-bottom: 0.8rem;
+            color: var(--silver);
+            letter-spacing: 2px;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 0;
+            color: #fff;
+            font-family: var(--mono);
+            outline: none;
+            transition: 0.3s;
+        }
+
+        input:focus,
+        textarea:focus {
+            border-color: var(--silver);
+        }
+
+        .btn-submit {
+            margin-top: 2rem;
+            width: 100%;
+            padding: 1.5rem;
+            background: #fff;
+            color: #000;
+            border: none;
+            font-family: var(--mono);
+            letter-spacing: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-submit:hover {
+            background: var(--silver);
+            letter-spacing: 7px;
+        }
+
+        .back-link {
+            margin-top: 3rem;
+            font-family: var(--mono);
+            font-size: 10px;
+            color: var(--silver);
+            text-decoration: none;
+            opacity: 0.4;
+            transition: 0.3s;
+        }
+
+        .back-link:hover {
+            opacity: 1;
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="cursor"></div>
+    <div id="cursor-follower"></div>
+    <header>
+        <a href="shield-infinity.html" class="logo">SHIELD OS</a>
+        <nav>
+            <a href="nodes.html">Nodes</a>
+            <a href="history.html">History</a>
+            <a href="transparency.html">Compliance</a>
+            <a href="support.html">Support</a>
+        </nav>
+    </header>
+    <section>
+        <h1>Help Center</h1>
+        <p class="tagline">WE ARE STANDING BY TO ASSIST YOU</p>
+        <div class="form-container" id="formWrapper">
+            <!-- Action points to FormSubmit for direct processing -->
+            <form id="contactForm" action="https://formsubmit.co/SHIELD.OS.SUPPORT@gmail.com" method="POST">
+                <input type="hidden" name="_captcha" value="false">
+                <input type="hidden" name="_subject" value="SHIELD_OS // SECURE_SUPPORT_SIGNAL">
+                <input type="hidden" name="_template" value="table">
+                <!-- Redirect back to this page to handle the success state -->
+                <input type="hidden" name="_next"
+                    value="http://localhost:5500/app%20website/support.html?status=success">
+
+                <div class="input-group">
+                    <label>YOUR NAME OR ID</label>
+                    <input type="text" name="name" id="userName" placeholder="GHOST_USER_01" required>
+                </div>
+                <div class="input-group">
+                    <label>YOUR EMAIL UPLINK</label>
+                    <input type="email" name="email" id="userEmail" placeholder="USER@SHIELD.MESH" required>
+                </div>
+                <div class="input-group">
+                    <label>HOW CAN WE HELP?</label>
+                    <textarea name="message" id="userMessage" rows="4" placeholder="TYPE YOUR MESSAGE HERE..."
+                        required></textarea>
+                </div>
+                <button type="submit" class="btn-submit" id="submitBtn">SEND SECURE MESSAGE</button>
+            </form>
+
+            <div id="formStatus"
+                style="display: none; margin-top: 2rem; font-family: var(--mono); font-size: 11px; color: var(--silver);">
+                <span class="status-icon" style="color: #fff; margin-right: 10px;">●</span>
+                <span id="statusText">PREPARING_ENCRYPTION...</span>
+            </div>
+
+            <div style="margin-top: 1.5rem; display: flex; justify-content: space-between; align-items: center;">
+                <div style="font-family: var(--mono); font-size: 9px; opacity: 0.3; letter-spacing: 1px;">
+                    ENCRYPTION: AES-256-GCM
+                </div>
+                <a href="mailto:SHIELD.OS.SUPPORT@gmail.com"
+                    style="font-family: var(--mono); font-size: 9px; color: var(--silver); opacity: 0.5; text-decoration: none; letter-spacing: 1px;">MANUAL_UPLINK_BACKUP</a>
+            </div>
+        </div>
+        <a href="shield-infinity.html" class="back-link">GO BACK TO HOME</a>
+    </section>
+    <footer style="margin-top: 10rem; border-top: 1px solid var(--border); background: rgba(0,0,0,0.3);">
+        <div class="container" style="max-width: 1000px; margin: 0 auto; padding: 6rem 2rem;">
+            <div class="footer-logo"
+                style="font-family: var(--hanoble); font-size: 2.5rem; letter-spacing: 12px; margin-bottom: 3rem; text-align: center; color: var(--platinum);">
+                SHIELD OS</div>
+
+            <div class="footer-context"
+                style="font-family: var(--mono); font-size: 11px; line-height: 2; color: var(--silver); opacity: 0.75; text-align: left; margin-bottom: 4rem;">
+                <p style="margin-bottom: 2rem; font-weight: 800; color: #fff; letter-spacing: 1px;">ALL RIGHTS RESERVED
+                    © 2024-2026 SHIELD OS Protocol Foundation.</p>
+                <p style="margin-bottom: 2rem;">All technical assets, cryptographic binaries, network topologies, and
+                    algorithmic implementations contained on this platform are the exclusive intellectual property of
+                    the SHIELD Protocol Foundation.</p>
+                <p style="margin-bottom: 2rem;">No portion of this software, including the graphical user interface,
+                    backend routing code, or AES-GCM integrated SDKs may be reproduced, reverse-engineered, decompiled,
+                    or distributed without express written cryogenic authorization.</p>
+            </div>
+
+            <div class="footer-bottom-links"
+                style="display: flex; flex-wrap: wrap; justify-content: center; gap: 2rem; align-items: center; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 3rem;">
+                <a href="privacy.html"
+                    style="font-family: var(--mono); font-size: 10px; letter-spacing: 3px; text-transform: uppercase; text-decoration: none; color: var(--silver); opacity: 0.6;">Full
+                    Privacy Policy</a>
+                <span style="opacity: 0.1; color: #fff;">|</span>
+                <a href="terms.html"
+                    style="font-family: var(--mono); font-size: 10px; letter-spacing: 3px; text-transform: uppercase; text-decoration: none; color: var(--silver); opacity: 0.6;">Terms
+                    & Conditions</a>
+                <span style="opacity: 0.1; color: #fff;">|</span>
+                <a href="licenses.html"
+                    style="font-family: var(--mono); font-size: 10px; letter-spacing: 3px; text-transform: uppercase; text-decoration: none; color: var(--silver); opacity: 0.6;">Open
+                    Source Licenses</a>
+            </div>
+            <div
+                style="text-align: center; margin-top: 4rem; font-family: var(--mono); font-size: 9px; opacity: 0.2; letter-spacing: 5px;">
+                LOC_DATA_SIGNAL // ENCRYPTED_HANDSHAKE_SUCCESSFUL
+            </div>
+        </div>
+    </footer>
+    <script>
+        const cursor = document.getElementById('cursor');
+        const follower = document.getElementById('cursor-follower');
+        window.addEventListener('mousemove', (e) => {
+            gsap.set(cursor, { x: e.clientX, y: e.clientY });
+            gsap.to(follower, { x: e.clientX, y: e.clientY, duration: 0.15 });
+        });
+
+        document.querySelectorAll('a, button, input, textarea').forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                gsap.to(follower, { scale: 1.5, background: 'rgba(255,255,255,0.1)', duration: 0.3 });
+                gsap.to(cursor, { scale: 1.5, duration: 0.3 });
+            });
+            el.addEventListener('mouseleave', () => {
+                gsap.to(follower, { scale: 1, background: 'transparent', duration: 0.3 });
+                gsap.to(cursor, { scale: 1, duration: 0.3 });
+            });
+        });
+
+        // Theme System
+        function setTheme(theme) {
+            if (theme === 'light') {
+                document.body.classList.add('light-mode');
+                localStorage.setItem('shield_theme', 'light');
+            } else {
+                document.body.classList.remove('light-mode');
+                localStorage.setItem('shield_theme', 'black');
+            }
+        }
+        const savedTheme = localStorage.getItem('shield_theme');
+        if (savedTheme === 'light') setTheme('light');
+
+        // --- SUPPORT FORM LOGIC (REVISED) ---
+        const contactForm = document.getElementById('contactForm');
+        const formStatus = document.getElementById('formStatus');
+        const statusText = document.getElementById('statusText');
+        const submitBtn = document.getElementById('submitBtn');
+
+        // Check for success redirect
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('status') === 'success') {
+            submitBtn.style.display = 'none';
+            formStatus.style.display = 'block';
+            statusText.innerText = "SIGNAL_RECEIVED_BY_CORE. GHOST_STAY_SAFE.";
+            statusText.style.color = "#fff";
+        }
+
+        contactForm.addEventListener('submit', async (e) => {
+            // We use standard form submission for the first 'activation' to be safe
+            // But we keep the cool UI logic
+            submitBtn.innerText = "TRANSMITTING...";
+            submitBtn.style.opacity = "0.5";
+            submitBtn.style.pointerEvents = "none";
+        });
+    </script>
+</body>
+
+</html>

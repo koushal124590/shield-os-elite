@@ -1,0 +1,22 @@
+{
+  "projects": {
+    "default": "shield-os-31c0a"
+  },
+  "targets": {
+    "noor-cf2f7": {
+      "hosting": {
+        "app": [
+          "noor-cf2f7"
+        ]
+      }
+    },
+    "shield-os-31c0a": {
+      "hosting": {
+        "branding": [
+          "shield-os-31c0a"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}

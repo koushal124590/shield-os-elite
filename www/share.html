@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHIELD SECUREDRIVE - Encryption Bridge</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --platinum: #E5E4E2;
+            --silver: #C0C0C0;
+            --dark-metal: #2C3E50;
+            --accent: #E5E4E2; /* Platinum */
+            --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background: var(--bg-gradient);
+            color: var(--dark-metal); 
+            display: flex; 
+            flex-direction: column; 
+            min-height: 100vh; 
+        }
+        
+        header { 
+            display: flex; 
+            align-items: center; 
+            padding: 20px 40px; 
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(192, 192, 192, 0.3);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .logo { 
+            display:flex; 
+            align-items:center; 
+            gap:12px; 
+            font-size:20px; 
+            color: #2c3e50; 
+            font-weight:700; 
+            text-decoration: none; 
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        .logo span { color: #7f8c8d; font-weight: 400; }
+        
+        .main-content { flex: 1; display: flex; align-items: center; justify-content: center; padding: 20px; }
+        
+        .card { 
+            background: rgba(255, 255, 255, 0.95); 
+            border: 1px solid rgba(255, 255, 255, 1);
+            border-radius: 24px; 
+            width: 100%; 
+            max-width: 460px; 
+            text-align: center; 
+            padding: 50px 40px; 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1), inset 0 0 0 1px rgba(255,255,255,0.5);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* Platinum Accents */
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 6px;
+            background: linear-gradient(90deg, #E5E4E2, #C0C0C0, #E5E4E2);
+        }
+        
+        .file-icon-box { 
+            font-size: 50px; 
+            margin-bottom: 25px; 
+            display: inline-block; 
+            background: #fff; 
+            padding: 30px; 
+            border-radius: 50%; 
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            border: 1px solid var(--platinum);
+        }
+        
+        .file-name { 
+            font-size: 20px; 
+            font-weight: 700; 
+            margin-bottom: 10px; 
+            color: #2c3e50; 
+            word-break: break-all; 
+            letter-spacing: -0.5px;
+        }
+        .file-size { 
+            font-size: 14px; 
+            color: #95a5a6; 
+            margin-bottom: 35px; 
+            font-family: 'Roboto Mono', monospace;
+            text-transform: uppercase;
+        }
+        
+        .preview-container { 
+            margin: 20px 0 30px; 
+            max-height: 320px; 
+            overflow: hidden; 
+            border-radius: 16px; 
+            border: 1px solid var(--platinum);
+            display: none; 
+            background: #fff;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        .preview-container img { max-width: 100%; max-height: 320px; display: block; object-fit: contain; }
+        
+        .btn-download { 
+            background: #2c3e50; 
+            color: #fff; 
+            border: none; 
+            border-radius: 12px; 
+            padding: 18px 24px; 
+            font-size: 14px; 
+            font-weight: 700; 
+            cursor: pointer; 
+            transition: all 0.3s ease; 
+            width: 100%; 
+            display: inline-flex; 
+            justify-content: center; 
+            align-items: center; 
+            gap: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .btn-download:hover { 
+            background: #34495e; 
+            transform: translateY(-2px); 
+            box-shadow: 0 10px 20px rgba(44,62,80,0.2); 
+        }
+        
+        .loading { display: flex; flex-direction: column; align-items: center; gap: 20px; }
+        .spinner { 
+            width: 40px; height: 40px; 
+            border: 3px solid rgba(192, 192, 192, 0.2); 
+            border-left-color: #2c3e50; 
+            border-radius: 50%; 
+            animation: spin 1s linear infinite; 
+        }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+        
+        .error-card { 
+            border-top: 6px solid #e74c3c !important; 
+        }
+        .error-diagnostic {
+            margin-top: 25px;
+            background: #fdf2f2;
+            border: 1px solid #f9d7d7;
+            padding: 15px;
+            border-radius: 12px;
+            text-align: left;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 11px;
+            color: #c0392b;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+
+        footer {
+            padding: 20px;
+            text-align: center;
+            font-size: 11px;
+            color: #7f8c8d;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="#" class="logo">
+            <div style="background: #2c3e50; padding: 6px; border-radius: 8px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#E5E4E2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                    <path d="M12 8v4"></path>
+                    <path d="M12 16h.01"></path>
+                </svg>
+            </div>
+            SECURE<span>DRIVE</span>
+        </a>
+    </header>
+
+    <div class="main-content">
+        <!-- Loading State -->
+        <div class="card" id="state-loading">
+            <div class="loading">
+                <div class="spinner"></div>
+                <div style="font-weight:600; letter-spacing:1px; color:#7f8c8d;" id="loading-txt">SYNCHRONIZING BRIDGE...</div>
+            </div>
+        </div>
+        
+        <!-- Ready State -->
+        <div class="card" id="state-ready" style="display: none;">
+            <div class="file-icon-box" id="file-icon">📄</div>
+            
+            <div class="preview-container" id="preview-container">
+                <img id="image-preview" src="" alt="Preview">
+            </div>
+            
+            <div class="file-name" id="file-name">loading...</div>
+            <div class="file-size" id="file-size">...</div>
+            
+            <button class="btn-download" id="btn-download">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v4"></path>
+                    <polyline points="7 10 12 15 17 10"></polyline>
+                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
+                Decrypt & Download
+            </button>
+        </div>
+
+        <!-- Error State -->
+        <div class="card error-card" id="state-error" style="display: none;">
+            <div style="font-size: 40px; margin-bottom: 20px;">🔒</div>
+            <div class="file-name" style="color: #e74c3c;">BRIDGE RESTRICTED</div>
+            <div id="error-desc" style="font-size: 13px; color: #7f8c8d; line-height: 1.6;">The secure transmission channel could not be established with the provided security token.</div>
+            <div class="error-diagnostic" id="error-debug"></div>
+        </div>
+    </div>
+
+    <footer>[ SECURE PACKET TRANSFER PROTOCOL V3.0 ]</footer>
+
+    <!-- Firebase Connection -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyA98SYj9aDFwSsjnIONe69yQCx5e_rZmkU",
+            authDomain: "noor-cf2f7.firebaseapp.com",
+            databaseURL: "https://noor-cf2f7-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "noor-cf2f7",
+            storageBucket: "noor-cf2f7.firebasestorage.app",
+            messagingSenderId: "428979587963",
+            appId: "1:428979587963:web:c9d7ea1bb4be0d4f14cbde"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+
+        // Advanced Extraction
+        const currentUrl = window.location.href;
+        const searchParams = new URLSearchParams(window.location.search);
+        let docId = searchParams.get('doc');
+        
+        if (!docId && window.location.hash.includes('doc=')) {
+            docId = window.location.hash.split('doc=')[1].split('&')[0];
+        }
+        if (!docId) {
+            const match = window.location.href.match(/[?&#]doc=([^&#]+)/);
+            if (match) docId = match[1];
+        }
+
+        function showError(msg, technical) {
+            document.getElementById('state-loading').style.display = 'none';
+            document.getElementById('state-error').style.display = 'block';
+            document.getElementById('error-debug').innerText = `DIAGNOSTICS:\n${technical || 'N/A'}`;
+            if (msg) document.getElementById('error-desc').innerText = msg;
+        }
+
+        if (!docId) {
+            showError("No document identifier detected in current signal path.", "MISSING_DOC_ID");
+        } else {
+            document.getElementById('loading-txt').innerText = "FETCHING SIGNAL: " + docId;
+            
+            get(ref(database, `shared_docs/${docId}`)).then(snap => {
+                if (snap.exists()) {
+                    const doc = snap.val();
+                    document.getElementById('state-loading').style.display = 'none';
+                    document.getElementById('state-ready').style.display = 'block';
+                    document.getElementById('file-name').innerText = doc.name;
+                    document.getElementById('file-size').innerText = "DATA_HASH: " + (doc.data.length / 1024).toFixed(1) + " KB";
+
+                    if (doc.name.match(/\.(jpg|jpeg|png|gif|webp)$/i)) {
+                        document.getElementById('file-icon').style.display = 'none';
+                        document.getElementById('preview-container').style.display = 'flex';
+                        document.getElementById('image-preview').src = doc.data;
+                    }
+
+                    document.getElementById('btn-download').onclick = () => {
+                        const btn = document.getElementById('btn-download');
+                        btn.innerText = 'TRANSMITTING...';
+                        try {
+                            const link = document.createElement('a');
+                            link.href = doc.data;
+                            link.download = doc.name;
+                            document.body.appendChild(link);
+                            link.click();
+                            document.body.removeChild(link);
+                            btn.innerText = 'COMPLETED';
+                            btn.style.background = "#27ae60";
+                        } catch(e) { showError("Download sequence aborted.", e.message); }
+                    };
+                } else {
+                    showError("The signal ID " + docId + " was not found in the global drive.", "PATH: shared_docs/" + docId);
+                }
+            }).catch(e => {
+                showError("Network connection to the drive was interrupted.", e.message);
+            });
+        }
+    </script>
+</body>
+</html>

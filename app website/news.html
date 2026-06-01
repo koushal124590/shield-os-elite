@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHIELD NEWS // LATEST PROTOCOLS</title>
+
+    <!-- Premium Typography -->
+    <link href="https://fonts.cdnfonts.com/css/hanoble" rel="stylesheet">
+    <link
+        href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700,900&f[]=jet-brains-mono@100,200,300,400,500,800&display=swap"
+        rel="stylesheet">
+
+    <!-- Engine Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.33/dist/lenis.min.js"></script>
+
+    <style>
+        :root {
+            --bg: #030303;
+            --silver: #C0C0C0;
+            --silver-glow: rgba(192, 192, 192, 0.4);
+            --platinum: #E5E4E2;
+            --border: rgba(255, 255, 255, 0.08);
+            --glass: rgba(15, 15, 15, 0.7);
+            --hanoble: 'Hanoble', serif;
+            --body: 'Satoshi', sans-serif;
+            --mono: 'JetBrains Mono', monospace;
+            --accent: #ffffff;
+        }
+
+        /* LIGHT MODE OVERRIDES */
+        body.light-mode {
+            --bg: #f5f5f7;
+            --platinum: #1a1a1a;
+            --silver: #333333;
+            --border: rgba(0, 0, 0, 0.1);
+            --glass: rgba(255, 255, 255, 0.8);
+            --accent: #000000;
+        }
+
+        body.light-mode header {
+            background: rgba(245, 245, 247, 0.8) !important;
+        }
+
+        body.light-mode .news-card {
+            background: rgba(0, 0, 0, 0.03);
+            border-color: rgba(0, 0, 0, 0.1);
+        }
+
+        body.light-mode .news-h,
+        body.light-mode .news-p {
+            color: #1a1a1a;
+        }
+
+        /* --- CORE RESET --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: none;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--platinum);
+            font-family: var(--body);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        #cursor {
+            position: fixed;
+            width: 6px;
+            height: 6px;
+            background: #fff;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 10000;
+            transform: translate(-50%, -50%);
+            mix-blend-mode: difference;
+        }
+
+        #cursor-follower {
+            position: fixed;
+            width: 30px;
+            height: 30px;
+            border: 1px solid rgba(192, 192, 192, 0.5);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s, height 0.3s, border-radius 0.3s, background 0.3s;
+        }
+
+        /* --- PROGRESS BAR --- */
+        #progress-wrap {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.05);
+            z-index: 2000;
+        }
+
+        #progress-bar {
+            width: 0%;
+            height: 100%;
+            background: var(--silver);
+            box-shadow: 0 0 10px var(--silver-glow);
+        }
+
+        /* --- HEADER --- */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.2rem 5vw;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background: rgba(3, 3, 3, 0.8);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--border);
+            transition: 0.3s;
+        }
+
+        /* --- DROPDOWNS --- */
+        .system-controls {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropbtn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            color: var(--platinum);
+            padding: 0.5rem 1rem;
+            font-family: var(--mono);
+            font-size: 9px;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 32px;
+            gap: 0.8rem;
+        }
+
+        body.light-mode .dropbtn {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        .dropbtn:hover {
+            border-color: var(--silver);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background: #0a0a0a;
+            min-width: 160px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8);
+            border: 1px solid var(--border);
+            z-index: 1001;
+            backdrop-filter: blur(10px);
+        }
+
+        body.light-mode .dropdown-content {
+            background: #ffffff;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .dropdown-content a {
+            color: var(--platinum);
+            padding: 1rem 1.5rem;
+            text-decoration: none;
+            display: block;
+            font-family: var(--mono);
+            font-size: 9px;
+            letter-spacing: 1px;
+            transition: 0.3s;
+        }
+
+        .dropdown-content a:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+        }
+
+        body.light-mode .dropdown-content a:hover {
+            background: rgba(0, 0, 0, 0.05);
+            color: #000;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .logo-group {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .logo-symbol {
+            width: 28px;
+            height: 28px;
+            background: var(--silver);
+            transform: rotate(45deg);
+            box-shadow: 0 0 15px var(--silver-glow);
+        }
+
+        .logo-text {
+            font-family: var(--hanoble);
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            color: var(--silver);
+        }
+
+        nav {
+            display: flex;
+            gap: 3rem;
+        }
+
+        .nav-link {
+            font-family: var(--mono);
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-decoration: none;
+            color: var(--silver);
+            opacity: 0.5;
+            transition: 0.3s;
+        }
+
+        .nav-link:hover {
+            opacity: 1;
+            color: var(--platinum);
+        }
+
+        /* --- NEWS CONTENT --- */
+        main {
+            padding-top: 15vh;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 5vw;
+        }
+
+        .hero-news {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 4rem;
+            margin-bottom: 8rem;
+        }
+
+        .hero-banner {
+            position: relative;
+            height: 600px;
+            border: 1px solid var(--border);
+            overflow: hidden;
+            display: flex;
+            align-items: flex-end;
+            padding: 4rem;
+        }
+
+        .hero-banner img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.6;
+            transition: transform 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .hero-banner:hover img {
+            transform: scale(1.05);
+        }
+
+        .hero-banner-content {
+            position: relative;
+            z-index: 10;
+        }
+
+        .news-tag {
+            font-family: var(--mono);
+            font-size: 0.7rem;
+            letter-spacing: 4px;
+            color: var(--silver);
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.4rem 1rem;
+            margin-bottom: 1.5rem;
+            display: inline-block;
+        }
+
+        .hero-banner-h {
+            font-family: var(--hanoble);
+            font-size: 3.5rem;
+            line-height: 1.1;
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+            max-width: 600px;
+        }
+
+        .hero-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .side-news {
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border);
+            transition: 0.3s;
+        }
+
+        .side-news:hover {
+            border-color: var(--silver);
+        }
+
+        .side-news-idx {
+            font-family: var(--mono);
+            font-size: 10px;
+            opacity: 0.3;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .side-news h4 {
+            font-family: var(--hanoble);
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+        }
+
+        .side-news p {
+            font-size: 0.9rem;
+            opacity: 0.5;
+            line-height: 1.6;
+        }
+
+        /* --- FILTERS --- */
+        .filters {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 4rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 1.5rem;
+        }
+
+        .filter-btn {
+            font-family: var(--mono);
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            background: none;
+            border: none;
+            color: var(--silver);
+            opacity: 0.4;
+            padding-bottom: 1.5rem;
+            cursor: pointer;
+            transition: 0.3s;
+            position: relative;
+        }
+
+        .filter-btn.active {
+            opacity: 1;
+        }
+
+        .filter-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--silver);
+        }
+
+        /* --- NEWS GRID --- */
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2.5rem;
+            margin-bottom: 8rem;
+        }
+
+        .news-card {
+            background: rgba(255, 255, 255, 0.01);
+            border: 1px solid var(--border);
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            overflow: hidden;
+        }
+
+        .news-card:hover {
+            border-color: var(--silver);
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .news-card-img {
+            height: 250px;
+            overflow: hidden;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .news-card-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .news-card:hover .news-card-img img {
+            transform: scale(1.1);
+        }
+
+        .news-card-content {
+            padding: 2.5rem;
+        }
+
+        .news-card-idx {
+            font-family: var(--mono);
+            font-size: 10px;
+            opacity: 0.3;
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+
+        .news-card h3 {
+            font-family: var(--hanoble);
+            font-size: 1.6rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            text-transform: uppercase;
+        }
+
+        .news-card p {
+            font-size: 0.95rem;
+            opacity: 0.6;
+            line-height: 1.7;
+            margin-bottom: 2rem;
+        }
+
+        .news-card-link {
+            font-family: var(--mono);
+            font-size: 0.7rem;
+            color: var(--silver);
+            text-decoration: none;
+            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: gap 0.3s;
+        }
+
+        .news-card:hover .news-card-link {
+            gap: 1.5rem;
+            color: #fff;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            padding: 8rem 5vw 4rem;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            background: #000;
+        }
+
+        .footer-logo {
+            font-family: var(--hanoble);
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            color: var(--silver);
+        }
+
+        .footer-trademark {
+            font-family: var(--mono);
+            font-size: 0.6rem;
+            opacity: 0.3;
+            letter-spacing: 4px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="cursor"></div>
+    <div id="cursor-follower"></div>
+    <div id="progress-wrap">
+        <div id="progress-bar"></div>
+    </div>
+
+    <header>
+        <div style="display: flex; align-items: center; gap: 2rem;">
+            <a href="javascript:history.back()" class="nav-link"
+                style="opacity: 0.8; display: flex; align-items: center; gap: 0.5rem;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M19 12H5M12 19l-7-7 7-7" />
+                </svg>
+                BACK
+            </a>
+            <a href="shield-infinity.html" class="logo-group">
+                <div class="logo-symbol"></div>
+                <span class="logo-text">SHIELD OS</span>
+            </a>
+        </div>
+        <nav>
+            <a href="shield-infinity.html" class="nav-link">Home</a>
+            <a href="nodes.html" class="nav-link">Nodes</a>
+            <a href="about.html" class="nav-link">Identity</a>
+            <a href="history.html" class="nav-link">History</a>
+        </nav>
+
+        <div class="system-controls">
+            <div class="dropdown">
+                <button class="dropbtn">LANG: EN ▾</button>
+                <div class="dropdown-content">
+                    <a href="#" onclick="changeLanguage('EN')">ENGLISH [EN]</a>
+                    <a href="#" onclick="changeLanguage('ES')">SPANISH [ES]</a>
+                    <a href="#" onclick="changeLanguage('FR')">FRENCH [FR]</a>
+                    <a href="#" onclick="changeLanguage('RU')">RUSSIAN [RU]</a>
+                    <a href="#" onclick="changeLanguage('JP')">JAPANESE [JP]</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <button class="dropbtn">THEME ▾</button>
+                <div class="dropdown-content">
+                    <a href="#" onclick="setTheme('black')">ONYX_BLACK</a>
+                    <a href="#" onclick="setTheme('light')">PLATINUM_LIGHT</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="hero-news fade-up">
+                <div class="hero-banner">
+                    <img src="../nexus_core_matrix_1773078512882.png" alt="Featured News">
+                    <div class="hero-banner-content">
+                        <span class="news-tag">BREAKING // STABLE_v2.1.4</span>
+                        <h1 class="hero-banner-h">Quantum Core Evolution: The Decentralized Shift</h1>
+                        <a href="#" class="news-card-link">CONTINUE_READING -></a>
+                    </div>
+                </div>
+                <div class="hero-sidebar">
+                    <div class="side-news">
+                        <span class="side-news-idx">01 // SECURITY</span>
+                        <h4>Null-Trace Protocol</h4>
+                        <p>Our labs have achieved zero-cache persistence across all mobile nodes.</p>
+                    </div>
+                    <div class="side-news">
+                        <span class="side-news-idx">02 // NETWORK</span>
+                        <h4>8K Active Nodes</h4>
+                        <p>The Quantum Mesh has surpassed global density targets for Q1 2026.</p>
+                    </div>
+                    <div class="side-news">
+                        <span class="side-news-idx">03 // ECOSYSTEM</span>
+                        <h4>Node Credit Surge</h4>
+                        <p>Market stabilization for Node Credits (◈) ensures consistent user rewards.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="filters fade-up">
+                <button class="filter-btn active" data-filter="all">ALL_FEEDS</button>
+                <button class="filter-btn" data-filter="tech">SYSTEM_TECH</button>
+                <button class="filter-btn" data-filter="privacy">PRIVACY_LOGS</button>
+                <button class="filter-btn" data-filter="mesh">MESH_UPDATES</button>
+            </div>
+
+            <div class="news-grid" id="newsGrid">
+                <!-- Card 1 -->
+                <div class="news-card" data-category="tech">
+                    <div class="news-card-img">
+                        <img src="../website/shield_infinity_secure_node.png" alt="Card 1">
+                    </div>
+                    <div class="news-card-content">
+                        <span class="news-card-idx">MARCH 09, 2026</span>
+                        <h3>AES-256 Quantum Shield Hardened</h3>
+                        <p>New entropy injection methods implemented to combat potential high-compute threats.</p>
+                        <a href="#" class="news-card-link">SCAN_DATA -></a>
+                    </div>
+                </div>
+                <!-- Card 2 -->
+                <div class="news-card" data-category="mesh">
+                    <div class="news-card-img">
+                        <img src="../website/shield_infinity_data_matrix.png" alt="Card 2">
+                    </div>
+                    <div class="news-card-content">
+                        <span class="news-card-idx">MARCH 07, 2026</span>
+                        <h3>Satellite Uplink Latency Reduction</h3>
+                        <p>Real-time data from Mars-station nodes shows 15% reduction in ping for deep-mesh calls.</p>
+                        <a href="#" class="news-card-link">SCAN_DATA -></a>
+                    </div>
+                </div>
+                <!-- Card 3 -->
+                <div class="news-card" data-category="privacy">
+                    <div class="news-card-img">
+                        <img src="../nexus_core_matrix_1773078512882.png" alt="Card 3">
+                    </div>
+                    <div class="news-card-content">
+                        <span class="news-card-idx">MARCH 05, 2026</span>
+                        <h3>The End of the IP Address</h3>
+                        <p>SHIELD OS transition to unique Peer-IDs completes, anonymizing global traffic signatures.</p>
+                        <a href="#" class="news-card-link">SCAN_DATA -></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer style="margin-top: 10rem; border-top: 1px solid var(--border); background: rgba(0,0,0,0.3);">
+        <div class="container" style="max-width: 1000px; margin: 0 auto; padding: 6rem 2rem;">
+            <div class="footer-logo"
+                style="font-family: var(--hanoble); font-size: 2.5rem; letter-spacing: 12px; margin-bottom: 3rem; text-align: center; color: var(--platinum);">
+                SHIELD OS</div>
+
+            <div class="footer-context"
+                style="font-family: var(--mono); font-size: 11px; line-height: 2; color: var(--silver); opacity: 0.75; text-align: left; margin-bottom: 4rem;">
+                <p style="margin-bottom: 2rem; font-weight: 800; color: #fff; letter-spacing: 1px;">ALL RIGHTS RESERVED
+                    © 2024-2026 SHIELD OS Protocol Foundation.</p>
+
+                <p style="margin-bottom: 2rem;">
+                    All technical assets, cryptographic binaries, network topologies, and algorithmic implementations
+                    contained on this platform are the exclusive intellectual property of the SHIELD Protocol
+                    Foundation.
+                </p>
+
+                <p style="margin-bottom: 2rem;">
+                    No portion of this software, including the graphical user interface, backend routing code, or
+                    AES-GCM integrated SDKs may be reproduced, reverse-engineered, decompiled, or distributed without
+                    express written cryogenic authorization. Any unauthorized probing of network endpoints or disruption
+                    of node activity is strictly prohibited and governed by international cyberspace jurisdiction codes.
+                </p>
+
+                <p style="margin-bottom: 2rem;">
+                    By downloading the SHIELD OS APK or utilizing the Web3 SDK, you agree to assume all liability for
+                    data transmission. SHIELD OS is provided "AS IS", without warranty of any kind, express or implied,
+                    including but not limited to the warranties of merchantability, fitness for a particular purpose and
+                    noninfringement. In no event shall the authors or copyright holders be liable for any claim, damages
+                    or other liability.
+                </p>
+            </div>
+
+            <div class="footer-bottom-links"
+                style="display: flex; flex-wrap: wrap; justify-content: center; gap: 2rem; align-items: center; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 3rem;">
+                <a href="privacy.html" class="nav-link"
+                    style="font-size: 10px; letter-spacing: 3px; text-transform: uppercase;">Full Privacy Policy</a>
+                <span style="opacity: 0.1; color: #fff;">|</span>
+                <a href="terms.html" class="nav-link"
+                    style="font-size: 10px; letter-spacing: 3px; text-transform: uppercase;">Terms & Conditions</a>
+                <span style="opacity: 0.1; color: #fff;">|</span>
+                <a href="licenses.html" class="nav-link"
+                    style="font-size: 10px; letter-spacing: 3px; text-transform: uppercase;">Open Source Licenses</a>
+            </div>
+
+            <div
+                style="text-align: center; margin-top: 4rem; font-family: var(--mono); font-size: 9px; opacity: 0.2; letter-spacing: 5px;">
+                LOC_DATA_SIGNAL // ENCRYPTED_HANDSHAKE_SUCCESSFUL
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // --- SMOOTH SCROLL ---
+        const lenis = new Lenis();
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        // --- CURSOR ---
+        const cursor = document.getElementById('cursor');
+        const follower = document.getElementById('cursor-follower');
+        window.addEventListener('mousemove', (e) => {
+            gsap.set(cursor, { x: e.clientX, y: e.clientY });
+            gsap.to(follower, { x: e.clientX, y: e.clientY, duration: 0.15 });
+        });
+
+        document.querySelectorAll('a, button, .news-card, .side-news').forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                gsap.to(follower, { width: 60, height: 60, background: 'rgba(255,255,255,0.1)', duration: 0.3 });
+            });
+            el.addEventListener('mouseleave', () => {
+                gsap.to(follower, { width: 30, height: 30, background: 'transparent', duration: 0.3 });
+            });
+        });
+
+        // --- FILTERS LOGIC ---
+        const filters = document.querySelectorAll('.filter-btn');
+        const cards = document.querySelectorAll('.news-card');
+
+        filters.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filters.forEach(f => f.classList.remove('active'));
+                btn.classList.add('active');
+
+                const filter = btn.getAttribute('data-filter');
+
+                cards.forEach(card => {
+                    if (filter === 'all' || card.getAttribute('data-category') === filter) {
+                        gsap.to(card, { opacity: 1, scale: 1, duration: 0.5, display: 'block' });
+                    } else {
+                        gsap.to(card, { opacity: 0, scale: 0.9, duration: 0.5, display: 'none' });
+                    }
+                });
+            });
+        });
+
+        // --- ANIMATIONS ---
+        gsap.registerPlugin(ScrollTrigger);
+        gsap.utils.toArray('.fade-up').forEach(el => {
+            gsap.from(el, {
+                scrollTrigger: { trigger: el, start: 'top 90%' },
+                y: 50,
+                opacity: 0,
+                duration: 1.2,
+                ease: 'expo.out'
+            });
+        });
+
+        // Hover Effect for News Grid
+        cards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                gsap.to(card.querySelector('h3'), { x: 10, duration: 0.3 });
+            });
+            card.addEventListener('mouseleave', () => {
+                gsap.to(card.querySelector('h3'), { x: 0, duration: 0.3 });
+            });
+        });
+
+        // --- READING PROGRESS ---
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById("progress-bar").style.width = scrolled + "%";
+        });
+
+        // --- MAGNETIC BUTTONS ---
+        const magneticBtns = document.querySelectorAll('.filter-btn, .logo-group');
+        magneticBtns.forEach(btn => {
+            btn.addEventListener('mousemove', (e) => {
+                const rect = btn.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                gsap.to(btn, { x: x * 0.3, y: y * 0.3, duration: 0.3 });
+            });
+            btn.addEventListener('mouseleave', () => {
+                gsap.to(btn, { x: 0, y: 0, duration: 0.3 });
+            });
+        });
+        // --- THEME SYSTEM ---
+        function setTheme(theme) {
+            if (theme === 'light') {
+                document.body.classList.add('light-mode');
+                localStorage.setItem('shield_theme', 'light');
+            } else {
+                document.body.classList.remove('light-mode');
+                localStorage.setItem('shield_theme', 'black');
+            }
+        }
+
+        // --- TRANSLATION SYSTEM ---
+        const translations = {
+            'EN': { title: 'Network Logs', sub: 'The Pulse of SHIELD OS' },
+            'ES': { title: 'Registros de Red', sub: 'El pulso de SHIELD OS' },
+            'FR': { title: 'Logs Réseau', sub: 'Le pouls de SHIELD OS' },
+            'RU': { title: 'Логи сети', sub: 'Пульс SHIELD OS' },
+            'JP': { title: 'ネットワークログ', sub: 'SHIELD OSの鼓動' }
+        };
+
+        function changeLanguage(lang) {
+            localStorage.setItem('shield_lang', lang);
+            const data = translations[lang];
+            if (!data) return;
+
+            document.querySelectorAll('.dropbtn')[0].innerText = `LANG: ${lang} ▾`;
+
+            if (document.querySelector('.news-header h1')) {
+                gsap.to(['.news-header h1', '.news-header p'], {
+                    opacity: 0,
+                    y: -10,
+                    duration: 0.3,
+                    onComplete: () => {
+                        document.querySelector('.news-header h1').innerHTML = data.title;
+                        document.querySelector('.news-header p').innerText = data.sub;
+                        gsap.to(['.news-header h1', '.news-header p'], { opacity: 1, y: 0, duration: 0.5 });
+                    }
+                });
+            }
+        }
+
+        // Init Language & Theme
+        const savedTheme = localStorage.getItem('shield_theme');
+        if (savedTheme === 'light') setTheme('light');
+
+        const savedLang = localStorage.getItem('shield_lang') || 'EN';
+        changeLanguage(savedLang);
+    </script>
+</body>
+
+</html>

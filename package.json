@@ -1,0 +1,69 @@
+{
+  "name": "shield-os-elite",
+  "version": "8.2.0",
+  "description": "SHIELD OS Elite Desktop Protocol",
+  "author": "SHIELD OS",
+  "productName": "SHIELD OS Elite",
+  "main": "electron-main.js",
+  "scripts": {
+    "start": "electron .",
+    "build:win": "electron-builder --windows",
+    "build:exe": "npx rimraf releases/exe_build && electron-packager . \"SHIELD OS Elite\" --platform=win32 --arch=x64 --out=releases/exe_build --overwrite --icon=www/assets/icon.png --ignore=\"(android|bin|archive|FINAL_ELITE_BACKUP|.firebase|.vscode|.git|releases|node_modules/@capacitor|node_modules/@capgo|node_modules/puppeteer)\""
+  },
+  "devDependencies": {
+    "@capacitor/android": "^8.2.0",
+    "@capacitor/assets": "^3.0.5",
+    "@capacitor/barcode-scanner": "^3.0.2",
+    "@capacitor/camera": "^8.0.2",
+    "@capacitor/cli": "^8.2.0",
+    "@capacitor/core": "^8.2.0",
+    "@capacitor/device": "^8.0.1",
+    "@capacitor/filesystem": "^8.1.2",
+    "@capacitor/haptics": "^8.0.1",
+    "@capacitor/local-notifications": "^8.0.2",
+    "@capacitor/push-notifications": "^8.0.2",
+    "@capacitor/share": "^8.0.1",
+    "@capgo/capacitor-native-biometric": "^8.4.2",
+    "electron": "^31.7.7",
+    "electron-builder": "^26.8.1",
+    "electron-packager": "^17.1.2",
+    "electron-winstaller": "^5.4.0",
+    "firebase-admin": "^13.7.0",
+    "puppeteer": "^24.38.0"
+  },
+  "build": {
+    "appId": "com.shield.app",
+    "productName": "SHIELD OS Elite",
+    "directories": {
+      "output": "releases/exe_build"
+    },
+    "files": [
+      "index.html",
+      "styles.css",
+      "app.js",
+      "electron-main.js",
+      "preload.js",
+      "firebase-config.js",
+      "www/**/*",
+      "assets/**/*",
+      "package.json",
+      "!bin/**/*",
+      "!android/**/*",
+      "!releases/**/*",
+      "!archive/**/*",
+      "!FINAL_ELITE_BACKUP/**/*",
+      "!.firebase/**/*",
+      "!.vscode/**/*",
+      "!node_modules/**/*"
+    ],
+    "win": {
+      "target": [
+        "dir"
+      ],
+      "icon": "www/assets/icon.png",
+      "forceCodeSigning": false
+    },
+    "asar": true,
+    "compression": "store"
+  }
+}
