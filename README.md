@@ -1,6 +1,6 @@
 <div align="center">
 
-  <img src="assets/3d-logo-spinning.gif" alt="SCP Logo" width="220">
+  <img src="assets/3d-logo-spinning.gif" alt="SCP Logo" width="400">
 
   # 🛡️ Antigravity — SHIELD OS Elite
 
